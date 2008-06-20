@@ -1,0 +1,195 @@
+(*
+	Works with Mathematica version 6 and above only
+*)
+
+<<Combinatorica`
+
+(* * * * * * * * * * * Configuration parameters * * * * * * * * * *)
+
+Remove[v];
+(* v = {}; *)
+(* v = {{{0.1, 0.1}}, {{0.5, 0.5}}, {{0.9, 0.9}}, {{0.3, 0.7}}, {{0.7, 0.3}}}; *)
+(* v = {{{0.1, 0.9}}, {{0.5, 0.9}}, {{0.9, 0.9}}, 
+	{{0.2, 0.6}}, {{0.5, 0.5}}, {{0.8, 0.6}}, 
+	{{0.05, 0.215}}, {{0.3, 0.14}}, {{0.7, 0.14}}, {{0.95, 0.215}}}; *)(* coverage 1 *)
+(* v = {{{0.1, 0.9}}, {{0.5, 0.9}}, {{0.9, 0.9}}, 
+	{{0.2, 0.6}}, {{0.5, 0.5}}, {{0.8, 0.6}}, 
+	{{0.05, 0.215}}, {{0.3, 0.14}}, {{0.7, 0.14}}, {{0.95, 0.215}},
+	{{0.15, 0.85}}, {{0.5, 0.85}}, {{0.85, 0.85}}, 
+	{{0.15, 0.5}}, {{0.5, 0.5}}, {{0.85, 0.5}},
+	{{0.15, 0.15}}, {{0.5, 0.15}}, {{0.85, 0.15}}}; *)(* coverage 2 *)
+
+If[Length[v] == 0, 
+	n = 20,							(* Total number of nodes; all nodes are FFDs *)
+	n = Length[v];					(* For pre-defined topologies *)
+];
+nprime = 15;						(* Average number of neighbours per node *)
+r = N[Sqrt[(nprime+1)/(n*\[Pi])]];	(* Transmission range *)
+
+If[Length[v] == 0,
+	nsim = 50,						(* Number of iterations per P *)
+	nsim = 1;						(* Only makes sense to simulate once for a fixed topology *)
+];
+
+euclidean = False;					(* Whether to use Euclidean or toroidal distances *)
+
+Lm = 3;								(* Maximum depth of the tree *)
+Cm = 14;							(* Maximum number of children of a ZC/ZR *)
+Rm = 14;							(* Maximum number of children of a ZC/ZR that can be ZRs *)
+
+(* * * * * * * * * * DO NOT MODIFY BELOW THIS LINE * * * * * * * * * *)
+
+(* * * * Functions {{{ * * * *)
+(*
+	Usage: Returns a tuple of {dist, xiprime, yiprime}.
+*)
+edist[xi_, yi_, xj_, yj_] := {Sqrt[(xi - xj)^2 + (yi - yj)^2], xi, yi};
+
+(* 
+	Usage: Returns a tuple of {dist, xiprime, yiprime}.
+	Dimension of toroidal area is 1 x 1. 
+*)
+tdist[xi_, yi_, xj_, yj_] := Module[{min, xiprime, yiprime},
+	min = edist[xi, yi, xj, yj][[1]];
+	xiprime = xi;
+	yiprime = yi;
+	tmp = edist[xi + 1, yi, xj, yj][[1]];
+	If[tmp < min, min = tmp; xiprime = xi + 1; yiprime = yi];
+	tmp = edist[xi - 1, yi, xj, yj][[1]];
+	If[tmp < min, min = tmp; xiprime = xi - 1; yiprime = yi];
+	tmp = edist[xi, yi + 1, xj, yj][[1]];
+	If[tmp < min, min = tmp; xiprime = xi; yiprime = yi + 1];
+	tmp = edist[xi, yi - 1, xj, yj][[1]];
+	If[tmp < min, min = tmp; xiprime = xi; yiprime = yi - 1];
+	tmp = edist[xi + 1, yi + 1, xj, yj][[1]];
+	If[tmp < min, min = tmp; xiprime = xi + 1; yiprime = yi + 1];
+	tmp = edist[xi + 1, yi - 1, xj, yj][[1]];
+	If[tmp < min, min = tmp; xiprime = xi + 1; yiprime = yi - 1];
+	tmp = edist[xi - 1, yi + 1, xj, yj][[1]];
+	If[tmp < min, min = tmp; xiprime = xi - 1; yiprime = yi + 1];
+	tmp = edist[xi - 1, yi - 1, xj, yj][[1]];
+	If[tmp < min, min = tmp; xiprime = xi - 1; yiprime = yi - 1];
+	{min, xiprime, yiprime}
+];
+
+(*
+	Usage: Returns a tuple of {dist, xiprime, yiprime).
+	Modify this to get Euclidean or toroidal distance. Returns a tuple.
+*)
+If[euclidean == True,
+	dist[xi_, yi_, xj_, yj_] := edist[xi, yi, xj, yj],
+	dist[x_, yi_, xj_, yj_] := tdist[xi, yi, xj, yj]
+];
+
+(* }}} *)
+
+(* * * * * * * * Main * * * * * * * *)
+nslots = 0;					(*	Number of beacon slots, to be determined later *)
+slots = Table[-1, {n}];		(*	slots[[i]] stores the slot occupied by node i; 
+								Note a slot is numbered from 0 to nslots-1 *)
+parents = Table[0, {n}]; 	(*	parents[[i]] stores the parent of node i *)
+nodes2txnext = {};			(*	List of nodes that are going to tx their
+								HELLO next *)
+
+	(* For[sim = 1, sim <= nsim, sim++, *) sim = 1;
+		SeedRandom[sim];
+
+		Print["* * * * * * * * Iteration ", sim, " * * * * * * * *"];
+
+		(* Generate vertices if not using a fixed topology *)
+		If[Length[v] == 0 || sim > 1,
+			v = {{{0.5, 0.5}}};	(* Initialize with a single sink *)
+			For[i = 2, i <= n, i++,
+				v = Append[v, {{Random[], Random[]}}]
+			]
+		];		
+		(* Print["Vertices: ", v]; *)
+		
+		(* Build two graphs one with r, another with 2r *)
+		g = Graph[{}, v];
+		g2 = Graph[{}, v];
+		For[i = 1, i <= n, i++,
+			For[j = i + 1, j <= n, j++, 
+				xi = Extract[Extract[Extract[v, i], 1], 1];
+				xj = Extract[Extract[Extract[v, j], 1], 1];
+				yi = Extract[Extract[Extract[v, i], 1], 2];
+				yj = Extract[Extract[Extract[v, j], 1], 2];
+				distance = dist[xi, yi, xj, yj][[1]];
+				(* Print["Distance between ", i, " and ", j, " is ", distance]; *)
+				If[distance < r,			
+					g = AddEdge[g, {{i, j}}]
+				];
+				If[distance < 2*r,
+					g2 = AddEdge[g2, {{i, j}}]
+				]				
+			]
+		];
+		ShowGraph[g, VertexNumber->True, BaseStyle->{FontSize->18}]
+
+		(* Initialize ZigBee variables *)
+		BOminusSO = Ceiling[Log[2, (Rm^Lm-1)/(Rm-1)]];
+		nslots = 2^BOminusSO;
+		Print["Number of beacon slots = ", nslots];
+
+		(** Tseng et al.'s DSA **)
+		(* Sink broadcasts HELLO with slot 0 *)
+		slots[[1]] = 0;		
+		neighbs = Neighborhood[g2, 1, 1];
+		neighbs = Delete[neighbs, 1];	(* Excludes the sink itself *)
+		For[i = 1, i <= Length[neighbs], i++,
+			parents[[neighbs[[i]]]] = 1;
+			nodes2txnext = Append[nodes2txnext, neighbs[[i]]]
+		];
+		Print["nodes2txnext: ", nodes2txnext];
+
+		(* Loop through the nodes *)
+		limit = 1;
+		While[Length[nodes2txnext] > 0 && limit < n,
+			whichnode = RandomInteger[{1, Length[nodes2txnext]}];
+			node = nodes2txnext[[whichnode]];
+			Print["Processing node ", node];
+			nodes2txnext = Delete[nodes2txnext, whichnode];			
+
+			(* Find the right slot according to step 3 *)
+			parent = parents[[node]];
+			parentslot = slots[[parent]];
+			neighbs = Neighborhood[g2, node, 1];			
+			neighbs = Delete[neighbs, 1];	(* Excludes itself *)
+			For[l = 1, l <= nslots - 1, l++,
+				collides = False;
+				testslot = N[Mod[parentslot - l, nslots]];
+				For[j = 1, j <= Length[neighbs], j++,
+					neighbslot = slots[[neighbs[[j]]]];
+					If[neighbslot > 0
+						&& testslot == neighbslot,
+						collides = True;
+						Break[];
+					]
+				];
+				If[collides == False,
+					(* Got slot *)
+					slots[[node]] = testslot;
+					Print["Node ", node, " gets slot ", testslot];
+					For[j = 1, j <= Length[neighbs], j++,
+						If[slots[[neighbs[[j]]]] < 0 &&
+							MemberQ[nodes2txnext, neighbs[[j]]] == False,
+							nodes2txnext = Append[nodes2txnext, neighbs[[j]]]
+						]
+					];
+					Break[],
+
+					(* Can't get any slot *)
+					If[l == nslots - 1,
+						Print["Node ", node, " cannot get any slot."]
+					]
+				]
+			];
+			limit++;
+		];
+		
+	(* ]; *) (* Simulations For loop *)
+
+(* 
+	vim:syn=mma:foldmethod=marker:
+*)
+
