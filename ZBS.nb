@@ -20,7 +20,7 @@ Remove[v];
 	{{0.15, 0.15}}, {{0.5, 0.15}}, {{0.85, 0.15}}}; *)(* coverage 2 *)
 
 If[Length[v] == 0, 
-	n = 20,							(* Total number of nodes; all nodes are FFDs *)
+	n = 100,						(* Total number of nodes; all nodes are FFDs *)
 	n = Length[v];					(* For pre-defined topologies *)
 ];
 nprime = 15;						(* Average number of neighbours per node *)
@@ -143,8 +143,7 @@ nodes2txnext = {};			(*	List of nodes that are going to tx their
 		Print["nodes2txnext: ", nodes2txnext];
 
 		(* Loop through the nodes *)
-		limit = 1;
-		While[Length[nodes2txnext] > 0 && limit < n,
+		While[Length[nodes2txnext] > 0,
 			whichnode = RandomInteger[{1, Length[nodes2txnext]}];
 			node = nodes2txnext[[whichnode]];
 			Print["Processing node ", node];
@@ -184,7 +183,6 @@ nodes2txnext = {};			(*	List of nodes that are going to tx their
 					]
 				]
 			];
-			limit++;
 		];
 		
 	(* ]; *) (* Simulations For loop *)
