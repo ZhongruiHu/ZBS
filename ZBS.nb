@@ -6,9 +6,8 @@
 
 (* * * * * * * * * * * Configuration parameters * * * * * * * * * *)
 
-Remove[v];
 (* v = {}; *)
-(* v = {{{0.1, 0.1}}, {{0.5, 0.5}}, {{0.9, 0.9}}, {{0.3, 0.7}}, {{0.7, 0.3}}}; *)
+v = {{{0.1, 0.1}}, {{0.5, 0.5}}, {{0.9, 0.9}}, {{0.3, 0.7}}, {{0.7, 0.3}}};
 (* v = {{{0.1, 0.9}}, {{0.5, 0.9}}, {{0.9, 0.9}}, 
 	{{0.2, 0.6}}, {{0.5, 0.5}}, {{0.8, 0.6}}, 
 	{{0.05, 0.215}}, {{0.3, 0.14}}, {{0.7, 0.14}}, {{0.95, 0.215}}}; *)(* coverage 1 *)
@@ -24,7 +23,7 @@ If[Length[v] == 0,
 	n = Length[v];					(* For pre-defined topologies *)
 ];
 nprime = 15;						(* Average number of neighbours per node *)
-r = N[Sqrt[(nprime+1)/(n*\[Pi])]];	(* Transmission range *)
+r = 0.5; (* N[Sqrt[(nprime+1)/(n*\[Pi])]]; *)	(* Transmission range *)
 
 If[Length[v] == 0,
 	nsim = 50,						(* Number of iterations per P *)
@@ -132,13 +131,14 @@ nodes2txnext = {};			(*	List of nodes that are going to tx their
 		Print["Number of beacon slots = ", nslots];
 
 		(** Tseng et al.'s DSA **)
-		(* Sink broadcasts HELLO with slot 0 *)
+		(* Sink broadcasts a beacon at slot 0 *)
 		slots[[1]] = 0;		
-		neighbs = Neighborhood[g2, 1, 1];
-		neighbs = Delete[neighbs, 1];	(* Excludes the sink itself *)
+		neighbs = Neighborhood[g, 1, 1];
 		For[i = 1, i <= Length[neighbs], i++,
-			parents[[neighbs[[i]]]] = 1;
-			nodes2txnext = Append[nodes2txnext, neighbs[[i]]]
+			neighb = neighbs[[i]];
+			If[neighb == 1, Continue[]];			
+			parents[[neighb]] = 1;
+			nodes2txnext = Append[nodes2txnext, neighb]			
 		];
 		Print["nodes2txnext: ", nodes2txnext];
 
@@ -146,19 +146,21 @@ nodes2txnext = {};			(*	List of nodes that are going to tx their
 		While[Length[nodes2txnext] > 0,
 			whichnode = RandomInteger[{1, Length[nodes2txnext]}];
 			node = nodes2txnext[[whichnode]];
-			Print["Processing node ", node];
+			Print["Node ", node, " determines beacon slot"];
 			nodes2txnext = Delete[nodes2txnext, whichnode];			
 
 			(* Find the right slot according to step 3 *)
 			parent = parents[[node]];
 			parentslot = slots[[parent]];
-			neighbs = Neighborhood[g2, node, 1];			
-			neighbs = Delete[neighbs, 1];	(* Excludes itself *)
+			neighbs = Neighborhood[g, node, 1];
+			neighbs2 = Neighborhood[g2, node, 1];
 			For[l = 1, l <= nslots - 1, l++,
 				collides = False;
 				testslot = N[Mod[parentslot - l, nslots]];
-				For[j = 1, j <= Length[neighbs], j++,
-					neighbslot = slots[[neighbs[[j]]]];
+				For[j = 1, j <= Length[neighbs2], j++,
+					neighb = neighbs2[[j]];
+					If[neighb == node, Continue[]];
+					neighbslot = slots[[neighb]];
 					If[neighbslot > 0
 						&& testslot == neighbslot,
 						collides = True;
@@ -169,22 +171,57 @@ nodes2txnext = {};			(*	List of nodes that are going to tx their
 					(* Got slot *)
 					slots[[node]] = testslot;
 					Print["Node ", node, " gets slot ", testslot];
+					(* Effect of broadcasting beacon *)
 					For[j = 1, j <= Length[neighbs], j++,
-						If[slots[[neighbs[[j]]]] < 0 &&
-							MemberQ[nodes2txnext, neighbs[[j]]] == False,
-							nodes2txnext = Append[nodes2txnext, neighbs[[j]]]
+						neighb = neighbs[[j]];
+						If[neighb == node, Continue[]];
+						If[parents[[neighb]] == 0,
+							parents[[neighb]] = node
+						]
+					];
+					(* Effect of broadcasting HELLO *)
+					For[j = 1, j <= Length[neighbs2], j++,
+						neighb = neighbs[[j]];
+						If[slots[[neighb]] < 0 &&
+							MemberQ[nodes2txnext, neighb] == False,
+							nodes2txnext = Append[nodes2txnext, neighb]
 						]
 					];
 					Break[],
 
-					(* Can't get any slot *)
+					(* Couldn't get any slot *)
 					If[l == nslots - 1,
-						Print["Node ", node, " cannot get any slot."]
+						Print["Node ", node, " failed to get any slot."]
 					]
 				]
 			];
 		];
 		
+		(* Calculate average latency *)
+		totlatency = 0;
+		For[i = 2, i <= n, i++,
+			latency = 0;
+			startnode = i;	(* Only for result display later *)
+			node = i;
+			parent = parents[[node]];
+			While[True,
+				ownslot = slots[[node]];
+				parentslot = slots[[parent]];
+				If[parentslot > ownslot,
+					latency += (parentslot - ownslot),					
+					latency += (nslots - ownslot + parentslot)
+				];
+				If[parent == 1,	
+					Break[]
+				];
+				node = parent;
+				parent = parents[[node]];
+			];
+			Print["  Latency from node ", startnode, " to sink = ", latency];
+			totlatency += latency
+		];
+		Print["Average latency = ", N[totlatency/(n-1)], " slots"];
+
 	(* ]; *) (* Simulations For loop *)
 
 (* 
