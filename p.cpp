@@ -7,27 +7,88 @@
 #include <map>
 #include <set>
 #include <algorithm>
+#include <ostream>
+#include <fstream>
 #include "gvc.h"
 
 using namespace std;
 
-#define NUM_NODES	300
-#define RADIO_RANGE 0.1
-#define NUM_SIMS	200
+// - - - - Configuration - - - - - - - - -- - - - - - - - - - - - - - - 
 
-#define DIST(i,j)		sqrt((x[i]-x[j])*(x[i]-x[j]) + (y[i]-y[j])*(y[i]-y[j]))
-#define CONNECTED(u,v)	(adjlist[(u)].find((v)) != adjlist[(u)].end())
+#define NUM_SIMS		20
+
+// options:
+#define TORUS_CONVENTION			// uses toroidal instead of euclidean distances
+
+// - - - - End configuration  - - - - - - - - - - - - - - - - - - - - - 
+
+#define CONNECTED(u,v)			(adjlist[(u)].find((v)) != adjlist[(u)].end())
+#define EUC_DIST(xi,yi,xj,yj)	sqrt(((xi)-(xj))*((xi)-(xj)) + ((yi)-(yj))*((yi)-(yj)))
 
 // Let X be the event that u is between r and 2r away from v
 // Let Y be the event that u shares no neighbor with v
-double r;
-double x[NUM_NODES], y[NUM_NODES];
-map< int, set<int> > adjlist;						// adjlist[i] stores r-neighbors of i
-map< int, set<int> > adjlist2;						// adjlist2[i] stores node between r and 2r away
+int n;									// number of nodes
+double r;								// radio range
+double *x, *y;
+set<int> *adjlist;						// adjlist[i] stores r-neighbors of i
+set<int> *adjlist2;						// adjlist2[i] stores node between r and 2r away
+map< pair<int, int>, double > uvdist;	// stores neighboring nodes' distances
+
+/**
+ * @param i					Node ID of the first node
+ * @param j					Node ID of the second node
+ * @param area_width 	Width of the simulation area
+ * @param area_height	Height of the simulation area
+ */
+double distance(int i, int j, double area_width, double area_height)
+{ //{{{
+	double tmp;	
+
+	// ensure order
+	if (i > j) {
+		tmp = i;
+		i = j;
+		j = (int)tmp;
+	}
+
+	// query database
+	pair<int,int> p(i, j);
+	map< pair<int,int>,double >::iterator iter = uvdist.find(p);
+	if (iter != uvdist.end())
+		return iter->second;
+	
+#ifdef TORUS_CONVENTION
+	double min;
+
+	min = EUC_DIST(x[i],				y[i],				x[j], y[j]);
+	tmp = EUC_DIST(x[i] + area_width,	y[i],				x[j], y[j]);
+	if (tmp < min) min = tmp;
+	tmp = EUC_DIST(x[i] - area_width,	y[i],				x[j], y[j]);
+	if (tmp < min) min = tmp;
+	tmp = EUC_DIST(x[i],				y[i] + area_height,	x[j], y[j]);
+	if (tmp < min) min = tmp;
+	tmp = EUC_DIST(x[i],				y[i] - area_height,	x[j], y[j]);
+	if (tmp < min) min = tmp;
+	tmp = EUC_DIST(x[i] + area_width,	y[i] + area_height,	x[j], y[j]);
+	if (tmp < min) min = tmp;
+	tmp = EUC_DIST(x[i] + area_width,	y[i] - area_height,	x[j], y[j]);
+	if (tmp < min) min = tmp;
+	tmp = EUC_DIST(x[i] - area_width,	y[i] + area_height,	x[j], y[j]);
+	if (tmp < min) min = tmp;
+	tmp = EUC_DIST(x[i] - area_width,	y[i] - area_height,	x[j], y[j]);
+	if (tmp < min) min = tmp;
+	uvdist[p] = min;
+	return min;
+#else
+	tmp = EUC_DIST(x[i], y[i], x[j], y[j]);
+	uvdist[p] = tmp;
+	return tmp;
+#endif
+} //}}}
 
 inline double joint_area(int u, int v)
 { //{{{
-	double theta = 2*acos(DIST(u,v)/2/r);
+	double theta = 2*acos(distance(u,v,1,1)/2./r);
 	return r*r*(theta-sin(theta));
 } //}}}
 
@@ -103,9 +164,29 @@ int main(int argc, char **argv)
 	vector<double> vec_P_Y_X;	// stores nY_X/nX of each sim round
 	vector<double> vec_uarea;	// stores joint areas of UPs
 	vector<double> vec_harea;	// stores joint areas of HPs	
-	int avg_deg = 0;			// average degree (NEEDED here)
+	double avg_deg = 0;			// average degree (NEEDED here) (doesn't make much diff if double)
 
-	r = RADIO_RANGE;
+	// parse command line params
+	if (argc < 3) {
+		printf("Usage: %s <radio range> <number of nodes>\n", argv[0]);
+		exit(1);
+	}
+	if (!(r = atof(argv[1]))) {
+		printf("Error: Invalid radio range.\n");
+		exit(1);
+	}
+	if (!(n = atoi(argv[2])) || n < 0) {
+		printf("Error: Invalid number of nodes.\n");
+		exit(1);
+	}
+
+	// init vars
+	x = new double[n];
+	y = new double[n];
+	adjlist = new set<int>[n];
+	adjlist2 = new set<int>[n];
+
+	// start simulation rounds
 	srand(123456);
 	while (sim < NUM_SIMS)
 	{	
@@ -113,37 +194,37 @@ int main(int argc, char **argv)
 		int uh = -1, vh = -1;	// HP
 		int nX = 0;				// incremented whenever event X occurs
 		int nY_X = 0;			// incremented whenever event X and event Y occurs
-		double sum_deg = 0;
+		int sum_deg = 0;
 
-		// distribute
-		for (i = 0; i < NUM_NODES; i++) {
+		// distribute and init each node
+		for (i = 0; i < n; i++) {
 			x[i] = (double)rand() / RAND_MAX;
 			y[i] = (double)rand() / RAND_MAX;
 			for (j = 0; j < i; j++) {				
-				if (DIST(i,j) <= r) {
+				if (distance(j,i,1,1) <= r) {
 					adjlist[i].insert(j);
 					adjlist[j].insert(i);
-					sum_deg++;
-				} else if (DIST(i,j) <= 2*r) {
+					sum_deg += 2;
+				} else if (distance(j,i,1,1) <= 2*r) {
 					adjlist2[i].insert(j);
 					adjlist2[j].insert(i);
-					vec_jarea.push_back(joint_area(i, j));
+					vec_jarea.push_back(joint_area(j, i));
 				}
 			}
 		}
-		avg_deg = 2*(int)(sum_deg/NUM_NODES);
+		avg_deg = (int)((double)sum_deg/n);
 
 		// calculate average number of neighbors (sanity check)
 		/*
 		double sum = 0;
-		for (i = 0; i < NUM_NODES; i++) {
+		for (i = 0; i < n; i++) {
 			sum += adjlist[i].size();			
 		}
-		avg_deg = (int)(sum/NUM_NODES);
+		avg_deg = (int)(sum/n);
 		*/
 
 		// look for an UP (u,v)		
-		for (i = 0; i < NUM_NODES; i++) {	
+		for (i = 0; i < n; i++) {	
 			for (set<int>::const_iterator iter = adjlist2[i].begin(); iter != adjlist2[i].end(); iter++) {
 				// at this stage i and *iter are between r and 2r apart
 				// now we iterate through *iter's neighbors
@@ -161,7 +242,7 @@ int main(int argc, char **argv)
 					if (u < 0) { // we only want to keep the first UP
 						v = i;
 						u = *iter;
-					}					
+					}
 				}
 			}
 		}
@@ -170,7 +251,7 @@ int main(int argc, char **argv)
 		if (u >= 0) {	
 			// look for an HP (uh, vh)
 			// skip the sink intentionally
-			for (i = 1; i < NUM_NODES; i++) {
+			for (i = 1; i < n; i++) {
 				for (set<int>::const_iterator iter = adjlist2[i].begin(); iter != adjlist2[i].end(); iter++) {
 					double isHP = false;
 					for (set<int>::const_iterator iter2 = adjlist[*iter].begin(); iter2 != adjlist[*iter].end(); iter2++) {
@@ -194,11 +275,11 @@ int main(int argc, char **argv)
 			if (sim == NUM_SIMS - 1) {
 				GVC_t *gvc = gv_start("p.ps");
 				Agraph_t *g = agopen("g", AGRAPH);
-				Agnode_t *gn[NUM_NODES];
-				for (i = 0; i < NUM_NODES; i++) {
+				Agnode_t **gn = new Agnode_t *[n];
+				for (i = 0; i < n; i++) {
 					gn[i] = NULL;
 				}
-				for (i = 0; i < NUM_NODES; i++) {
+				for (i = 0; i < n; i++) {
 					// node		
 					gn[i] = gv_create_node(g, i);
 					if (i == u || i == v)
@@ -215,18 +296,25 @@ int main(int argc, char **argv)
 				}
 				gv_run(gvc, g);
 				gv_end(gvc, g);
+				delete[] gn;
 			}
 
 			// debug
-			printf("%3d: UP: (%3d, %3d)\tHP: (%3d, %3d)\tavg_deg: %d\n", sim+1, u, v, uh, vh, avg_deg);
+			printf("%3d: UP: (%3d, %3d)\tHP: (%3d, %3d)\tavg_deg: %f\n", sim+1, u, v, uh, vh, avg_deg);
 			//assert(!CONNECTED(u,v));
 			//assert(!CONNECTED(uh,vh));
-		}
 
-		// clean-up
-		for (i = 0; i < NUM_NODES; i++) {
-			adjlist[i].clear();
-			adjlist2[i].clear();
+			// calculate area of intersection between u and v
+			vec_uarea.push_back(joint_area(u, v));
+			vec_harea.push_back(joint_area(uh, vh));
+			vec_P_Y_X.push_back((double)nY_X/nX);
+
+			// reset data
+			for (i = 0; i < n; i++) {
+				adjlist[i].clear();
+				adjlist2[i].clear();
+			}
+			uvdist.clear();
 		}
 		
 		// this round doesn't count if no UP found
@@ -234,11 +322,6 @@ int main(int argc, char **argv)
 			printf("UP not found\n");
 			continue;
 		}
-
-		// calculate area of intersection between u and v
-		vec_uarea.push_back(joint_area(u, v));
-		vec_harea.push_back(joint_area(uh, vh));
-		vec_P_Y_X.push_back((double)nY_X/nX);
 
 		// next sim round
 		sim++;
@@ -249,10 +332,11 @@ int main(int argc, char **argv)
 	double P_Y = 1 - 4*M_PI*r*r*(1 - pow(0.75, avg_deg));
 	double P_X_Y = 3*M_PI*r*r*pow(1-sqrt(3.)/4/M_PI, avg_deg);
 	P_X_Y /= (1 - 4*M_PI*r*r*(1 - pow(0.75, avg_deg)));
-	double P_Y_X = pow(1 - sqrt(3.)/4/M_PI, avg_deg);
+	double P_Y_X = pow(1 - sqrt(3.)/(4*M_PI), avg_deg);	// wrong!
+	//double P_Y_X = pow(.75, avg_deg)*(1 - 4*M_PI*r*r*(1 - pow(.75, avg_deg)));	// wrong!
 	double P_X_YC = 3*M_PI*r*r*(1 - P_Y_X)/(1 - P_Y);
 	printf("Theoretical P[W|X] : %f\n", P_W_X);
-	printf("Theoretical P[Y|X] : %f\n", P_Y_X);
+	//printf("Theoretical P[Y|X] : %f\n", P_Y_X);
 	//printf("Theoretical P[Y]   : %f\n", P_Y);	
 	//printf("Theoretical P[X|Y] : %f\n", P_X_Y);
 	//printf("Theoretical P[X|Y']: %f\n", P_X_YC);
@@ -262,18 +346,35 @@ int main(int argc, char **argv)
 	get_stat(vec_jarea, sim_P_W_X, stddev);
 	printf("Simulated   P[W|X] : %f ¡À%f\n", sim_P_W_X, stddev);
 	get_stat(vec_P_Y_X, sim_P_Y_X, stddev);
-	printf("Simulated   P[Y|X] : %f ¡À%f\n", sim_P_Y_X, stddev);
+	printf("Simulated   P[Y|X] : %f ¡À%f (k = %f)\n", sim_P_Y_X, stddev, avg_deg);
 	get_stat(vec_uarea, sim_P_U, stddev);	
 	printf("Simulated   P_U    : %f ¡À%f\n", sim_P_U, stddev);
 	get_stat(vec_harea, sim_P_H, stddev);
 	printf("Simulated   P_H    : %f ¡À%f\n", sim_P_H, stddev);
 
-	// experiment
-	printf("In theory          : %f\n", sim_P_U*P_Y_X + sim_P_H*(1-P_Y_X)); // correct
-	printf("Should be          : %f\n", sim_P_U*sim_P_Y_X + sim_P_H*(1-sim_P_Y_X)); // correct
-	double p = M_PI*r*r;
-	printf("P_U?               : %f\n", 1.213525*pow(p, avg_deg+1));
-	printf("P_U?               : %f\n", 1.213525*p*(1-pow(0.1378*p, avg_deg))/pow(0.8621, avg_deg));
+	// experiments
+	printf("P[W|X] in theory   : %f\n", sim_P_U*P_Y_X + sim_P_H*(1-P_Y_X)); // wrong
+	printf("P[W|X] in reality  : %f\n", sim_P_U*sim_P_Y_X + sim_P_H*(1-sim_P_Y_X)); // says sim_P_Y_X is right
+
+	// output some results to a file
+	/*
+	ofstream fs;
+	fs.open("p.uarea.dat", ios_base::out);
+	if (fs.good()) {
+		for (vector<double>::const_iterator iter = vec_uarea.begin(); iter != vec_uarea.end(); iter++) {
+			fs << *iter << endl;
+		}
+		fs.close();
+	} else {
+		printf("Could not open file for output.\n");
+	}
+	*/
+
+	// cleanup vars
+	delete[] x;
+	delete[] y;
+	delete[] adjlist;
+	delete[] adjlist2;
 } //}}}
 
 // vim:foldmethod=marker:
