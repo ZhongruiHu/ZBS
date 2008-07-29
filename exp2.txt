@@ -1,525 +1,343 @@
 Experiment 2
 
 Tseng {{{
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/300, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000114 (prob_link = 0.031416, avg_num_neighb = 9.424778)
 * Average average latency = 26.791781 ¡À2.305555
 * Average maximum latency = 54.110000 ¡À5.182461
 * Average number of associated devices = 298.910000 ¡À2.518313
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/400, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000072 (prob_link = 0.031416, avg_num_neighb = 12.566371)
 * Average average latency = 30.569512 ¡À2.587279
 * Average maximum latency = 64.260000 ¡À6.236377
 * Average number of associated devices = 399.780000 ¡À0.742698
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/500, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000045 (prob_link = 0.031416, avg_num_neighb = 15.707963)
 * Average average latency = 32.978589 ¡À2.694000
 * Average maximum latency = 71.650000 ¡À7.243445
 * Average number of associated devices = 499.990000 ¡À0.099499
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/600, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000028 (prob_link = 0.031416, avg_num_neighb = 18.849556)
 * Average average latency = 36.721503 ¡À3.053925
 * Average maximum latency = 80.710000 ¡À8.405112
 * Average number of associated devices = 600.000000 ¡À0.000000
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/700, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000018 (prob_link = 0.031416, avg_num_neighb = 21.991149)
 * Average average latency = 39.216053 ¡À3.184417
 * Average maximum latency = 86.570000 ¡À8.256216
 * Average number of associated devices = 699.990000 ¡À0.099499
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/800, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000011 (prob_link = 0.031416, avg_num_neighb = 25.132741)
 * Average average latency = 41.442203 ¡À2.841481
 * Average maximum latency = 93.900000 ¡À9.201630
 * Average number of associated devices = 800.000000 ¡À0.000000
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/900, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000007 (prob_link = 0.031416, avg_num_neighb = 28.274334)
-* Average average latency = 44.057909 ¡À3.249674
-* Average maximum latency = 101.660000 ¡À10.408862
+* Average average latency = 44.058521 ¡À3.250688
+* Average maximum latency = 101.700000 ¡À10.510471
 * Average number of associated devices = 900.000000 ¡À0.000000
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/1000, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000004 (prob_link = 0.031416, avg_num_neighb = 31.415927)
-* Average average latency = 46.731311 ¡À2.869100
-* Average maximum latency = 107.600000 ¡À9.476286
+* Average average latency = 46.736867 ¡À2.881803
+* Average maximum latency = 107.930000 ¡À10.316254
 * Average number of associated devices = 1000.000000 ¡À0.000000
 }}}
 
-Yen1 {{{
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/300, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000114 (prob_link = 0.031416, avg_num_neighb = 9.424778)
+D1VHU {{{
 * Average average latency = 8.881696 ¡À0.844177
 * Average maximum latency = 17.720000 ¡À2.396164
 * Average number of associated devices = 289.530000 ¡À6.434990
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/400, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000072 (prob_link = 0.031416, avg_num_neighb = 12.566371)
 * Average average latency = 9.091344 ¡À0.621567
 * Average maximum latency = 18.190000 ¡À1.825897
 * Average number of associated devices = 393.020000 ¡À3.836613
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/500, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000045 (prob_link = 0.031416, avg_num_neighb = 15.707963)
 * Average average latency = 9.367211 ¡À0.556973
 * Average maximum latency = 19.080000 ¡À1.671407
 * Average number of associated devices = 493.780000 ¡À3.812034
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/600, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000028 (prob_link = 0.031416, avg_num_neighb = 18.849556)
 * Average average latency = 9.661036 ¡À0.443033
 * Average maximum latency = 20.080000 ¡À1.863760
 * Average number of associated devices = 594.490000 ¡À2.861800
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/700, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000018 (prob_link = 0.031416, avg_num_neighb = 21.991149)
 * Average average latency = 10.054662 ¡À0.438661
 * Average maximum latency = 21.040000 ¡À1.731589
 * Average number of associated devices = 694.810000 ¡À2.988963
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/800, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000011 (prob_link = 0.031416, avg_num_neighb = 25.132741)
 * Average average latency = 10.539231 ¡À0.446167
 * Average maximum latency = 22.420000 ¡À1.934838
 * Average number of associated devices = 795.640000 ¡À3.031567
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/900, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000007 (prob_link = 0.031416, avg_num_neighb = 28.274334)
 * Average average latency = 10.900626 ¡À0.433607
 * Average maximum latency = 23.380000 ¡À1.864296
 * Average number of associated devices = 895.860000 ¡À2.929232
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/1000, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000004 (prob_link = 0.031416, avg_num_neighb = 31.415927)
 * Average average latency = 11.365019 ¡À0.430958
 * Average maximum latency = 24.650000 ¡À2.031625
 * Average number of associated devices = 995.570000 ¡À3.271865
 }}}
 
-Yen2 {{{
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/300, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000114 (prob_link = 0.031416, avg_num_neighb = 9.424778)
+D1HU {{{
 * Average average latency = 12.025520 ¡À1.146737
 * Average maximum latency = 25.340000 ¡À3.268700
 * Average number of associated devices = 298.370000 ¡À4.462410
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/400, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000072 (prob_link = 0.031416, avg_num_neighb = 12.566371)
 * Average average latency = 12.806902 ¡À1.024656
 * Average maximum latency = 28.060000 ¡À2.975970
 * Average number of associated devices = 399.720000 ¡À1.435827
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/500, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000045 (prob_link = 0.031416, avg_num_neighb = 15.707963)
 * Average average latency = 13.722159 ¡À0.862281
 * Average maximum latency = 30.940000 ¡À3.177483
 * Average number of associated devices = 499.920000 ¡À0.337046
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/600, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000028 (prob_link = 0.031416, avg_num_neighb = 18.849556)
 * Average average latency = 14.815023 ¡À0.992747
 * Average maximum latency = 33.800000 ¡À3.367492
 * Average number of associated devices = 599.990000 ¡À0.099499
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/700, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000018 (prob_link = 0.031416, avg_num_neighb = 21.991149)
 * Average average latency = 15.719560 ¡À0.983562
 * Average maximum latency = 37.060000 ¡À3.480862
 * Average number of associated devices = 699.970000 ¡À0.170587
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/800, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000011 (prob_link = 0.031416, avg_num_neighb = 25.132741)
 * Average average latency = 16.891430 ¡À1.076416
 * Average maximum latency = 40.890000 ¡À3.709164
 * Average number of associated devices = 799.990000 ¡À0.099499
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/900, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000007 (prob_link = 0.031416, avg_num_neighb = 28.274334)
 * Average average latency = 17.790912 ¡À1.033369
 * Average maximum latency = 43.080000 ¡À4.892198
 * Average number of associated devices = 900.000000 ¡À0.000000
 
-Options enabled:
-Parameters: l/200.000000, r/20.000000, n/1000, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000004 (prob_link = 0.031416, avg_num_neighb = 31.415927)
 * Average average latency = 18.932973 ¡À1.036618
 * Average maximum latency = 46.720000 ¡À5.319925
 * Average number of associated devices = 1000.000000 ¡À0.000000
 }}}
 
-Yen3 {{{
-Options enabled: 
-Parameters: l/200.000000, r/20.000000, n/300, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000114 (prob_link = 0.031416, avg_num_neighb = 9.424778)
-* Average average latency = 12.025520 ¡À1.146737
-* Average maximum latency = 25.340000 ¡À3.268700
-* Average number of associated devices = 298.370000 ¡À4.462410
+D2VHU {{{
+* Average average latency = 9.377656 ¡À0.821830
+* Average maximum latency = 18.380000 ¡À2.382352
+* Average number of associated devices = 291.110000 ¡À7.368711
 
-Options enabled: 
-Parameters: l/200.000000, r/20.000000, n/400, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000072 (prob_link = 0.031416, avg_num_neighb = 12.566371)
-* Average average latency = 12.806902 ¡À1.024656
-* Average maximum latency = 28.060000 ¡À2.975970
-* Average number of associated devices = 399.720000 ¡À1.435827
+* Average average latency = 9.619266 ¡À0.617152
+* Average maximum latency = 18.430000 ¡À1.762129
+* Average number of associated devices = 394.660000 ¡À3.329324
 
-Options enabled: 
-Parameters: l/200.000000, r/20.000000, n/500, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000045 (prob_link = 0.031416, avg_num_neighb = 15.707963)
-* Average average latency = 13.722159 ¡À0.862281
-* Average maximum latency = 30.940000 ¡À3.177483
-* Average number of associated devices = 499.920000 ¡À0.337046
+* Average average latency = 10.051108 ¡À0.601670
+* Average maximum latency = 19.440000 ¡À1.920000
+* Average number of associated devices = 495.430000 ¡À2.984141
 
-Options enabled: 
-Parameters: l/200.000000, r/20.000000, n/600, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000028 (prob_link = 0.031416, avg_num_neighb = 18.849556)
-* Average average latency = 14.815023 ¡À0.992747
-* Average maximum latency = 33.800000 ¡À3.367492
-* Average number of associated devices = 599.990000 ¡À0.099499
+* Average average latency = 10.537151 ¡À0.692853
+* Average maximum latency = 20.110000 ¡À1.624161
+* Average number of associated devices = 595.860000 ¡À2.657141
 
-Options enabled: 
-Parameters: l/200.000000, r/20.000000, n/700, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000018 (prob_link = 0.031416, avg_num_neighb = 21.991149)
-* Average average latency = 15.719560 ¡À0.983562
-* Average maximum latency = 37.060000 ¡À3.480862
+* Average average latency = 10.919807 ¡À0.653958
+* Average maximum latency = 21.170000 ¡À1.838777
+* Average number of associated devices = 696.040000 ¡À2.727343
+
+* Average average latency = 11.157074 ¡À0.515849
+* Average maximum latency = 21.340000 ¡À1.686535
+* Average number of associated devices = 795.620000 ¡À3.081493
+
+* Average average latency = 11.672341 ¡À0.553569
+* Average maximum latency = 22.570000 ¡À1.607825
+* Average number of associated devices = 896.220000 ¡À2.460000
+
+* Average average latency = 11.976651 ¡À0.572695
+* Average maximum latency = 23.370000 ¡À1.634962
+* Average number of associated devices = 996.850000 ¡À2.812028
+}}}
+
+D2HU {{{
+* Average average latency = 12.651441 ¡À1.225870
+* Average maximum latency = 25.600000 ¡À3.184337
+* Average number of associated devices = 298.060000 ¡À3.313065
+
+* Average average latency = 13.428508 ¡À1.005918
+* Average maximum latency = 27.710000 ¡À2.673182
+* Average number of associated devices = 399.760000 ¡À0.838093
+
+* Average average latency = 14.548909 ¡À0.913931
+* Average maximum latency = 29.940000 ¡À2.648849
+* Average number of associated devices = 499.900000 ¡À0.412311
+
+* Average average latency = 15.454692 ¡À0.887020
+* Average maximum latency = 31.870000 ¡À2.390209
+* Average number of associated devices = 599.960000 ¡À0.313688
+
+* Average average latency = 16.336982 ¡À0.851358
+* Average maximum latency = 34.120000 ¡À2.808131
 * Average number of associated devices = 699.970000 ¡À0.170587
 
-Options enabled: 
-Parameters: l/200.000000, r/20.000000, n/800, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000011 (prob_link = 0.031416, avg_num_neighb = 25.132741)
-* Average average latency = 16.891430 ¡À1.076416
-* Average maximum latency = 40.890000 ¡À3.709164
-* Average number of associated devices = 799.990000 ¡À0.099499
+* Average average latency = 17.254831 ¡À0.914202
+* Average maximum latency = 36.080000 ¡À2.813112
+* Average number of associated devices = 800.000000 ¡À0.000000
 
-Options enabled: 
-Parameters: l/200.000000, r/20.000000, n/900, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000007 (prob_link = 0.031416, avg_num_neighb = 28.274334)
-* Average average latency = 17.790912 ¡À1.033369
-* Average maximum latency = 43.080000 ¡À4.892198
+* Average average latency = 18.331568 ¡À1.063695
+* Average maximum latency = 38.480000 ¡À2.751291
 * Average number of associated devices = 900.000000 ¡À0.000000
 
-Options enabled: 
-Parameters: l/200.000000, r/20.000000, n/1000, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000004 (prob_link = 0.031416, avg_num_neighb = 31.415927)
-* Average average latency = 18.932973 ¡À1.036618
-* Average maximum latency = 46.720000 ¡À5.319925
+* Average average latency = 19.085806 ¡À0.928119
+* Average maximum latency = 39.630000 ¡À2.431687
 * Average number of associated devices = 1000.000000 ¡À0.000000
 }}}
 
-Yen4 {{{
-Options enabled: 
-Parameters: l/200.000000, r/20.000000, n/300, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000114 (prob_link = 0.031416, avg_num_neighb = 9.424778)
-* Average average latency = 12.025520 ¡À1.146737
-* Average maximum latency = 25.340000 ¡À3.268700
-* Average number of associated devices = 298.370000 ¡À4.462410
-
-Options enabled: 
-Parameters: l/200.000000, r/20.000000, n/400, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000072 (prob_link = 0.031416, avg_num_neighb = 12.566371)
-* Average average latency = 12.806902 ¡À1.024656
-* Average maximum latency = 28.060000 ¡À2.975970
-* Average number of associated devices = 399.720000 ¡À1.435827
-
-Options enabled: 
-Parameters: l/200.000000, r/20.000000, n/500, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000045 (prob_link = 0.031416, avg_num_neighb = 15.707963)
-* Average average latency = 13.722159 ¡À0.862281
-* Average maximum latency = 30.940000 ¡À3.177483
-* Average number of associated devices = 499.920000 ¡À0.337046
-
-Options enabled: 
-Parameters: l/200.000000, r/20.000000, n/600, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000028 (prob_link = 0.031416, avg_num_neighb = 18.849556)
-* Average average latency = 14.815023 ¡À0.992747
-* Average maximum latency = 33.800000 ¡À3.367492
-* Average number of associated devices = 599.990000 ¡À0.099499
-
-Options enabled: 
-Parameters: l/200.000000, r/20.000000, n/700, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000018 (prob_link = 0.031416, avg_num_neighb = 21.991149)
-* Average average latency = 15.719560 ¡À0.983562
-* Average maximum latency = 37.060000 ¡À3.480862
-* Average number of associated devices = 699.970000 ¡À0.170587
-
-Options enabled: 
-Parameters: l/200.000000, r/20.000000, n/800, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000011 (prob_link = 0.031416, avg_num_neighb = 25.132741)
-* Average average latency = 16.891430 ¡À1.076416
-* Average maximum latency = 40.890000 ¡À3.709164
-* Average number of associated devices = 799.990000 ¡À0.099499
-
-Options enabled: 
-Parameters: l/200.000000, r/20.000000, n/900, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000007 (prob_link = 0.031416, avg_num_neighb = 28.274334)
-* Average average latency = 17.790912 ¡À1.033369
-* Average maximum latency = 43.080000 ¡À4.892198
-* Average number of associated devices = 900.000000 ¡À0.000000
-
-Options enabled: 
-Parameters: l/200.000000, r/20.000000, n/1000, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000004 (prob_link = 0.031416, avg_num_neighb = 31.415927)
-* Average average latency = 18.932973 ¡À1.036618
-* Average maximum latency = 46.720000 ¡À5.319925
-* Average number of associated devices = 1000.000000 ¡À0.000000
-}}}
-
-Yen1 (fast) {{{
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/300, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000114 (prob_link = 0.031416, avg_num_neighb = 9.424778)
-* Average average latency = 9.473384 ¡À1.428274
-* Average maximum latency = 18.510000 ¡À3.189028
-* Average number of associated devices = 291.550000 ¡À7.101232
-
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/400, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000072 (prob_link = 0.031416, avg_num_neighb = 12.566371)
-* Average average latency = 9.622678 ¡À0.593546
-* Average maximum latency = 18.710000 ¡À1.675082
-* Average number of associated devices = 394.540000 ¡À3.201312
-
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/500, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000045 (prob_link = 0.031416, avg_num_neighb = 15.707963)
-* Average average latency = 10.014026 ¡À0.565156
-* Average maximum latency = 19.490000 ¡À1.699971
-* Average number of associated devices = 495.420000 ¡À2.811334
-
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/600, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000028 (prob_link = 0.031416, avg_num_neighb = 18.849556)
-* Average average latency = 10.395947 ¡À0.520806
-* Average maximum latency = 20.150000 ¡À1.705139
-* Average number of associated devices = 595.940000 ¡À2.576121
-
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/700, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000018 (prob_link = 0.031416, avg_num_neighb = 21.991149)
-* Average average latency = 10.864642 ¡À0.482431
-* Average maximum latency = 21.000000 ¡À1.737815
-* Average number of associated devices = 695.660000 ¡À2.960473
-
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/800, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000011 (prob_link = 0.031416, avg_num_neighb = 25.132741)
-* Average average latency = 11.216104 ¡À0.480796
-* Average maximum latency = 21.740000 ¡À1.712425
-* Average number of associated devices = 796.170000 ¡À2.912233
-
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/900, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000007 (prob_link = 0.031416, avg_num_neighb = 28.274334)
-* Average average latency = 11.627540 ¡À0.535632
-* Average maximum latency = 22.760000 ¡À1.477295
-* Average number of associated devices = 896.940000 ¡À2.235263
-
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/1000, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000004 (prob_link = 0.031416, avg_num_neighb = 31.415927)
-* Average average latency = 12.058064 ¡À0.553909
-* Average maximum latency = 23.420000 ¡À1.715692
-* Average number of associated devices = 996.490000 ¡À1.962116
-}}}
-
-Yen2 (fast) {{{
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/300, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000114 (prob_link = 0.031416, avg_num_neighb = 9.424778)
-* Average average latency = 12.528063 ¡À1.048878
-* Average maximum latency = 25.860000 ¡À2.742335
-* Average number of associated devices = 298.700000 ¡À2.406242
-
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/400, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000072 (prob_link = 0.031416, avg_num_neighb = 12.566371)
-* Average average latency = 13.582072 ¡À1.060756
-* Average maximum latency = 27.540000 ¡À2.692285
-* Average number of associated devices = 399.700000 ¡À0.943398
-
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/500, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000045 (prob_link = 0.031416, avg_num_neighb = 15.707963)
-* Average average latency = 14.499898 ¡À0.974226
-* Average maximum latency = 30.550000 ¡À2.944062
-* Average number of associated devices = 499.910000 ¡À0.449333
-
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/600, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000028 (prob_link = 0.031416, avg_num_neighb = 18.849556)
-* Average average latency = 15.383709 ¡À0.839732
-* Average maximum latency = 31.800000 ¡À2.935984
-* Average number of associated devices = 599.970000 ¡À0.170587
-
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/700, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000018 (prob_link = 0.031416, avg_num_neighb = 21.991149)
-* Average average latency = 16.359794 ¡À0.914062
-* Average maximum latency = 33.860000 ¡À2.664658
-* Average number of associated devices = 699.990000 ¡À0.099499
-
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/800, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000011 (prob_link = 0.031416, avg_num_neighb = 25.132741)
-* Average average latency = 17.335440 ¡À0.891613
-* Average maximum latency = 36.410000 ¡À2.623338
-* Average number of associated devices = 799.980000 ¡À0.198997
-
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/900, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000007 (prob_link = 0.031416, avg_num_neighb = 28.274334)
-* Average average latency = 18.434171 ¡À0.988785
-* Average maximum latency = 38.030000 ¡À2.707231
-* Average number of associated devices = 900.000000 ¡À0.000000
-
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/1000, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000004 (prob_link = 0.031416, avg_num_neighb = 31.415927)
-* Average average latency = 19.352112 ¡À0.901762
-* Average maximum latency = 40.210000 ¡À2.673182
-* Average number of associated devices = 1000.000000 ¡À0.000000
-}}}
-
-Yen3 (fast) {{{
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/300, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000114 (prob_link = 0.031416, avg_num_neighb = 9.424778)
+D2U {{{
 * Average average latency = 20.356089 ¡À1.822280
 * Average maximum latency = 40.410000 ¡À4.329192
 * Average number of associated devices = 298.710000 ¡À2.546743
 
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/400, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000072 (prob_link = 0.031416, avg_num_neighb = 12.566371)
 * Average average latency = 23.637092 ¡À1.775453
 * Average maximum latency = 47.540000 ¡À4.288170
 * Average number of associated devices = 399.830000 ¡À0.600916
 
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/500, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000045 (prob_link = 0.031416, avg_num_neighb = 15.707963)
 * Average average latency = 25.934153 ¡À1.479886
 * Average maximum latency = 52.370000 ¡À3.743408
 * Average number of associated devices = 499.980000 ¡À0.140000
 
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/600, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000028 (prob_link = 0.031416, avg_num_neighb = 18.849556)
 * Average average latency = 29.170352 ¡À1.734373
 * Average maximum latency = 58.600000 ¡À4.953786
 * Average number of associated devices = 599.960000 ¡À0.280000
 
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/700, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000018 (prob_link = 0.031416, avg_num_neighb = 21.991149)
 * Average average latency = 31.725536 ¡À1.643962
 * Average maximum latency = 63.830000 ¡À4.576145
 * Average number of associated devices = 700.000000 ¡À0.000000
 
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/800, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000011 (prob_link = 0.031416, avg_num_neighb = 25.132741)
 * Average average latency = 34.497972 ¡À1.591569
 * Average maximum latency = 70.180000 ¡À4.697616
 * Average number of associated devices = 800.000000 ¡À0.000000
 
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/900, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000007 (prob_link = 0.031416, avg_num_neighb = 28.274334)
 * Average average latency = 36.913448 ¡À2.086650
 * Average maximum latency = 74.340000 ¡À4.322546
 * Average number of associated devices = 900.000000 ¡À0.000000
 
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/1000, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000004 (prob_link = 0.031416, avg_num_neighb = 31.415927)
 * Average average latency = 39.843874 ¡À2.018335
 * Average maximum latency = 80.270000 ¡À4.780910
 * Average number of associated devices = 1000.000000 ¡À0.000000
 }}}
 
-Yen4 (fast) {{{
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/300, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000114 (prob_link = 0.031416, avg_num_neighb = 9.424778)
-* Average average latency = 20.356089 ¡À1.822280
-* Average maximum latency = 40.410000 ¡À4.329192
-* Average number of associated devices = 298.710000 ¡À2.546743
+CVHU {{{
+* Average average latency = 9.419890 ¡À0.749630
+* Average maximum latency = 18.370000 ¡À2.472468
+* Average number of associated devices = 292.650000 ¡À5.177596
 
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/400, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000072 (prob_link = 0.031416, avg_num_neighb = 12.566371)
-* Average average latency = 23.637092 ¡À1.775453
-* Average maximum latency = 47.540000 ¡À4.288170
-* Average number of associated devices = 399.830000 ¡À0.600916
+* Average average latency = 9.776303 ¡À0.741759
+* Average maximum latency = 18.550000 ¡À1.774119
+* Average number of associated devices = 395.090000 ¡À3.310876
 
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/500, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000045 (prob_link = 0.031416, avg_num_neighb = 15.707963)
-* Average average latency = 25.934153 ¡À1.479886
-* Average maximum latency = 52.370000 ¡À3.743408
-* Average number of associated devices = 499.980000 ¡À0.140000
+* Average average latency = 10.178114 ¡À0.657141
+* Average maximum latency = 19.440000 ¡À1.614435
+* Average number of associated devices = 496.220000 ¡À2.472165
 
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/600, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000028 (prob_link = 0.031416, avg_num_neighb = 18.849556)
-* Average average latency = 29.170352 ¡À1.734373
-* Average maximum latency = 58.600000 ¡À4.953786
-* Average number of associated devices = 599.960000 ¡À0.280000
+* Average average latency = 10.542327 ¡À0.563481
+* Average maximum latency = 20.300000 ¡À1.584298
+* Average number of associated devices = 596.020000 ¡À2.935916
 
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/700, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000018 (prob_link = 0.031416, avg_num_neighb = 21.991149)
-* Average average latency = 31.725536 ¡À1.643962
-* Average maximum latency = 63.830000 ¡À4.576145
+* Average average latency = 10.982064 ¡À0.662958
+* Average maximum latency = 21.170000 ¡À1.726586
+* Average number of associated devices = 696.250000 ¡À2.434646
+
+* Average average latency = 11.339211 ¡À0.534210
+* Average maximum latency = 22.190000 ¡À1.937498
+* Average number of associated devices = 796.750000 ¡À2.483445
+
+* Average average latency = 11.651430 ¡À0.471180
+* Average maximum latency = 22.200000 ¡À1.240967
+* Average number of associated devices = 896.760000 ¡À2.267686
+
+* Average average latency = 11.982698 ¡À0.545160
+* Average maximum latency = 22.990000 ¡À1.791619
+* Average number of associated devices = 996.450000 ¡À2.790609
+}}}
+
+CHU {{{
+* Average average latency = 12.914581 ¡À1.442807
+* Average maximum latency = 26.240000 ¡À3.406230
+* Average number of associated devices = 298.720000 ¡À2.908883
+
+* Average average latency = 13.531583 ¡À0.871798
+* Average maximum latency = 27.680000 ¡À2.682834
+* Average number of associated devices = 399.740000 ¡À0.729657
+
+* Average average latency = 14.540993 ¡À0.916440
+* Average maximum latency = 29.880000 ¡À2.526974
+* Average number of associated devices = 499.970000 ¡À0.170587
+
+* Average average latency = 15.419055 ¡À0.882237
+* Average maximum latency = 31.990000 ¡À2.703683
+* Average number of associated devices = 599.960000 ¡À0.241661
+
+* Average average latency = 16.328212 ¡À0.855951
+* Average maximum latency = 34.170000 ¡À2.742462
 * Average number of associated devices = 700.000000 ¡À0.000000
 
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/800, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000011 (prob_link = 0.031416, avg_num_neighb = 25.132741)
-* Average average latency = 34.497972 ¡À1.591569
-* Average maximum latency = 70.180000 ¡À4.697616
+* Average average latency = 17.406496 ¡À0.906689
+* Average maximum latency = 36.190000 ¡À2.708117
 * Average number of associated devices = 800.000000 ¡À0.000000
 
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/900, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000007 (prob_link = 0.031416, avg_num_neighb = 28.274334)
-* Average average latency = 36.913448 ¡À2.086650
-* Average maximum latency = 74.340000 ¡À4.322546
+* Average average latency = 18.146556 ¡À0.856735
+* Average maximum latency = 37.570000 ¡À2.268281
+* Average number of associated devices = 899.990000 ¡À0.099499
+
+* Average average latency = 19.165105 ¡À0.837449
+* Average maximum latency = 39.970000 ¡À2.815866
+* Average number of associated devices = 1000.000000 ¡À0.000000
+}}}
+
+CU {{{
+* Average average latency = 20.735880 ¡À2.102065
+* Average maximum latency = 41.100000 ¡À4.255585
+* Average number of associated devices = 298.880000 ¡À2.953913
+
+* Average average latency = 23.758882 ¡À1.915247
+* Average maximum latency = 47.770000 ¡À5.027634
+* Average number of associated devices = 399.810000 ¡À0.833007
+
+* Average average latency = 25.969395 ¡À1.528439
+* Average maximum latency = 52.460000 ¡À3.983516
+* Average number of associated devices = 499.960000 ¡À0.313688
+
+* Average average latency = 28.971371 ¡À1.634287
+* Average maximum latency = 58.610000 ¡À4.690192
+* Average number of associated devices = 599.990000 ¡À0.099499
+
+* Average average latency = 31.505551 ¡À1.729779
+* Average maximum latency = 63.890000 ¡À4.910998
+* Average number of associated devices = 700.000000 ¡À0.000000
+
+* Average average latency = 34.592265 ¡À2.099353
+* Average maximum latency = 69.350000 ¡À4.998750
+* Average number of associated devices = 800.000000 ¡À0.000000
+
+* Average average latency = 37.140801 ¡À1.882927
+* Average maximum latency = 75.530000 ¡À4.877407
 * Average number of associated devices = 900.000000 ¡À0.000000
 
-Options enabled: ADV_NEIGHB_SLOTS 
-Parameters: l/200.000000, r/20.000000, n/1000, max_ZRs/72011594, num_slots/128
-P_V = 0.139507, P_H = 0.004330, P_U = 0.000004 (prob_link = 0.031416, avg_num_neighb = 31.415927)
-* Average average latency = 39.843874 ¡À2.018335
-* Average maximum latency = 80.270000 ¡À4.780910
+* Average average latency = 39.900030 ¡À2.056533
+* Average maximum latency = 80.980000 ¡À5.114646
 * Average number of associated devices = 1000.000000 ¡À0.000000
+}}}
+
+C {{{
+* Average average latency = 74.234007 ¡À2.570583
+* Average maximum latency = 129.790000 ¡À13.119676
+* Average number of associated devices = 207.560000 ¡À13.889075
+
+* Average average latency = 75.279569 ¡À3.472695
+* Average maximum latency = 130.600000 ¡À13.310898
+* Average number of associated devices = 267.440000 ¡À18.274748
+
+* Average average latency = 76.796886 ¡À7.621452
+* Average maximum latency = 140.500000 ¡À34.103226
+* Average number of associated devices = 315.960000 ¡À22.012687
+
+* Average average latency = 74.565599 ¡À4.558710
+* Average maximum latency = 137.630000 ¡À26.750946
+* Average number of associated devices = 367.500000 ¡À26.059355
+
+* Average average latency = 74.181909 ¡À6.451102
+* Average maximum latency = 145.690000 ¡À40.672766
+* Average number of associated devices = 425.980000 ¡À35.024272
+
+* Average average latency = 73.844500 ¡À6.375050
+* Average maximum latency = 136.190000 ¡À24.661182
+* Average number of associated devices = 477.930000 ¡À35.046613
+
+* Average average latency = 72.282413 ¡À2.630824
+* Average maximum latency = 132.110000 ¡À18.466670
+* Average number of associated devices = 532.350000 ¡À38.100492
+
+* Average average latency = 73.550395 ¡À10.538272
+* Average maximum latency = 139.650000 ¡À33.214869
+* Average number of associated devices = 581.200000 ¡À34.308308
 }}}
 
 vim:foldmethod=marker:
