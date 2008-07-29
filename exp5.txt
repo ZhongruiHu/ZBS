@@ -1,0 +1,173 @@
+Experiment 5
+
+Tseng {{{
+* Average average latency = 14.972173 ¡À1.466085
+* Average maximum latency = 28.600000 ¡À3.376389
+* Average number of associated devices = 183.650000 ¡À27.765941
+
+* Average average latency = 16.634255 ¡À1.523565
+* Average maximum latency = 33.850000 ¡À3.922690
+* Average number of associated devices = 278.270000 ¡À33.451713
+
+* Average average latency = 18.392699 ¡À1.608650
+* Average maximum latency = 39.110000 ¡À4.367826
+* Average number of associated devices = 366.110000 ¡À39.507441
+
+* Average average latency = 19.770099 ¡À1.878676
+* Average maximum latency = 44.040000 ¡À4.939474
+* Average number of associated devices = 455.900000 ¡À31.633052
+
+* Average average latency = 21.099944 ¡À1.892334
+* Average maximum latency = 47.970000 ¡À4.852741
+* Average number of associated devices = 548.050000 ¡À35.894115
+
+* Average average latency = 21.575997 ¡À2.114107
+* Average maximum latency = 51.660000 ¡À5.396703
+* Average number of associated devices = 637.550000 ¡À35.005821
+
+* Average average latency = 22.936321 ¡À2.134754
+* Average maximum latency = 55.570000 ¡À5.212015
+* Average number of associated devices = 720.950000 ¡À46.107781
+
+* Average average latency = 23.630931 ¡À2.335532
+* Average maximum latency = 57.520000 ¡À6.202387
+* Average number of associated devices = 803.370000 ¡À48.104606
+}}}
+
+D2VHU {{{
+* Average average latency = 5.857859 ¡À0.636293
+* Average maximum latency = 10.570000 ¡À1.450896
+* Average number of associated devices = 142.860000 ¡À34.140012
+
+* Average average latency = 6.159528 ¡À0.518135
+* Average maximum latency = 11.450000 ¡À1.344433
+* Average number of associated devices = 231.190000 ¡À40.027664
+
+* Average average latency = 6.474057 ¡À0.580909
+* Average maximum latency = 12.500000 ¡À1.417745
+* Average number of associated devices = 299.440000 ¡À41.925486
+
+* Average average latency = 6.684222 ¡À0.478641
+* Average maximum latency = 13.120000 ¡À1.373172
+* Average number of associated devices = 375.440000 ¡À44.566202
+
+* Average average latency = 6.932967 ¡À0.587636
+* Average maximum latency = 13.790000 ¡À1.491945
+* Average number of associated devices = 456.930000 ¡À42.592782
+
+* Average average latency = 7.105910 ¡À0.598537
+* Average maximum latency = 14.350000 ¡À1.710994
+* Average number of associated devices = 514.820000 ¡À55.450948
+
+* Average average latency = 7.352787 ¡À0.577271
+* Average maximum latency = 15.050000 ¡À1.728439
+* Average number of associated devices = 591.440000 ¡À54.954767
+
+* Average average latency = 7.430254 ¡À0.548138
+* Average maximum latency = 15.200000 ¡À1.630951
+* Average number of associated devices = 671.150000 ¡À64.915233
+}}}
+
+D2HU {{{
+* Average average latency = 7.824614 ¡À0.765473
+* Average maximum latency = 14.930000 ¡À1.727744
+* Average number of associated devices = 170.670000 ¡À31.324130
+
+* Average average latency = 8.352232 ¡À0.867730
+* Average maximum latency = 16.750000 ¡À1.872832
+* Average number of associated devices = 258.060000 ¡À38.233185
+
+* Average average latency = 8.820783 ¡À0.741320
+* Average maximum latency = 18.740000 ¡À1.803441
+* Average number of associated devices = 347.670000 ¡À29.462537
+
+* Average average latency = 8.958788 ¡À0.797530
+* Average maximum latency = 19.440000 ¡À2.050951
+* Average number of associated devices = 423.790000 ¡À38.853132
+
+* Average average latency = 9.527072 ¡À0.922440
+* Average maximum latency = 20.770000 ¡À2.096926
+* Average number of associated devices = 498.270000 ¡À39.904600
+
+* Average average latency = 9.694714 ¡À0.812439
+* Average maximum latency = 21.890000 ¡À2.194972
+* Average number of associated devices = 585.400000 ¡À38.014997
+
+* Average average latency = 9.967593 ¡À0.784202
+* Average maximum latency = 22.870000 ¡À2.386022
+* Average number of associated devices = 660.050000 ¡À44.620483
+
+* Average average latency = 10.342005 ¡À0.866886
+* Average maximum latency = 23.470000 ¡À2.179243
+* Average number of associated devices = 737.390000 ¡À52.474355
+}}}
+
+D2U {{{
+* Average average latency = 12.176371 ¡À1.273897
+* Average maximum latency = 23.440000 ¡À2.871655
+* Average number of associated devices = 173.050000 ¡À36.500788
+
+* Average average latency = 13.755682 ¡À1.269159
+* Average maximum latency = 27.530000 ¡À2.736622
+* Average number of associated devices = 262.300000 ¡À35.809356
+
+* Average average latency = 14.788050 ¡À1.441012
+* Average maximum latency = 30.990000 ¡À3.034782
+* Average number of associated devices = 345.950000 ¡À37.664141
+
+* Average average latency = 15.826571 ¡À1.445681
+* Average maximum latency = 34.360000 ¡À3.195372
+* Average number of associated devices = 437.540000 ¡À35.816036
+
+* Average average latency = 16.811186 ¡À1.587123
+* Average maximum latency = 37.660000 ¡À3.377040
+* Average number of associated devices = 521.340000 ¡À32.544499
+
+* Average average latency = 17.915968 ¡À1.627354
+* Average maximum latency = 40.150000 ¡À3.550704
+* Average number of associated devices = 598.980000 ¡À44.628910
+
+* Average average latency = 18.432126 ¡À1.285629
+* Average maximum latency = 42.040000 ¡À3.307325
+* Average number of associated devices = 684.060000 ¡À45.369333
+
+* Average average latency = 19.308153 ¡À1.770386
+* Average maximum latency = 45.120000 ¡À4.200667
+* Average number of associated devices = 765.010000 ¡À49.192376
+}}}
+
+C {{{
+* Average average latency = 46.252589 ¡À10.884037
+* Average maximum latency = 90.950000 ¡À21.315429
+* Average number of associated devices = 174.200000 ¡À35.421462
+
+* Average average latency = 57.052799 ¡À7.622860
+* Average maximum latency = 116.020000 ¡À16.311333
+* Average number of associated devices = 255.930000 ¡À32.386496
+
+* Average average latency = 62.079249 ¡À3.046958
+* Average maximum latency = 127.270000 ¡À3.243008
+* Average number of associated devices = 329.740000 ¡À23.231711
+
+* Average average latency = 63.054423 ¡À2.541445
+* Average maximum latency = 128.000000 ¡À0.000000
+* Average number of associated devices = 391.310000 ¡À22.697002
+
+* Average average latency = 63.632108 ¡À2.580337
+* Average maximum latency = 128.250000 ¡À2.487469
+* Average number of associated devices = 452.540000 ¡À28.062224
+
+* Average average latency = 63.749042 ¡À2.612842
+* Average maximum latency = 129.560000 ¡À11.098036
+* Average number of associated devices = 508.060000 ¡À31.612599
+
+* Average average latency = 63.660935 ¡À2.784064
+* Average maximum latency = 129.010000 ¡À10.049373
+* Average number of associated devices = 566.840000 ¡À36.999114
+
+* Average average latency = 64.594438 ¡À4.646555
+* Average maximum latency = 131.790000 ¡À18.779401
+* Average number of associated devices = 620.180000 ¡À47.369480
+}}}
+
+vim:foldmethod=marker:
