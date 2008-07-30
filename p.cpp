@@ -15,7 +15,7 @@ using namespace std;
 
 // - - - - Configuration - - - - - - - - -- - - - - - - - - - - - - - - 
 
-#define NUM_SIMS		20
+#define NUM_SIMS		200
 
 // options:
 #define TORUS_CONVENTION			// uses toroidal instead of euclidean distances
