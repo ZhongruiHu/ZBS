@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZBS", "ZBS.vcproj", "{5287EFD3-8383-4834-AF50-200BA530FCC0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "p", "p.vcproj", "{F218D83B-7AD0-49D2-9143-51EB5D7FECCF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "a", "a.vcproj", "{DE197787-883B-4B4C-A0EC-E0CDC0385868}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mm", "mm.vcproj", "{559BD154-4A10-4F8E-9417-73A8AB4F78C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +13,14 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5287EFD3-8383-4834-AF50-200BA530FCC0}.Debug|Win32.ActiveCfg = Debug|Win32
-		{5287EFD3-8383-4834-AF50-200BA530FCC0}.Debug|Win32.Build.0 = Debug|Win32
-		{5287EFD3-8383-4834-AF50-200BA530FCC0}.Release|Win32.ActiveCfg = Release|Win32
-		{5287EFD3-8383-4834-AF50-200BA530FCC0}.Release|Win32.Build.0 = Release|Win32
+		{F218D83B-7AD0-49D2-9143-51EB5D7FECCF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F218D83B-7AD0-49D2-9143-51EB5D7FECCF}.Release|Win32.ActiveCfg = Release|Win32
+		{DE197787-883B-4B4C-A0EC-E0CDC0385868}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DE197787-883B-4B4C-A0EC-E0CDC0385868}.Release|Win32.ActiveCfg = Release|Win32
+		{559BD154-4A10-4F8E-9417-73A8AB4F78C8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{559BD154-4A10-4F8E-9417-73A8AB4F78C8}.Debug|Win32.Build.0 = Debug|Win32
+		{559BD154-4A10-4F8E-9417-73A8AB4F78C8}.Release|Win32.ActiveCfg = Release|Win32
+		{559BD154-4A10-4F8E-9417-73A8AB4F78C8}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
