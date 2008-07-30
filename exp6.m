@@ -74,27 +74,34 @@ P_H5 = [0.000296,
 		0.011009,
 		0.013033];
 
-for i=0:14
-	% these are actually p's:
-	r (i+1) = pi*(0.06+i*0.01)^2;
-	r2(i+1) = pi*(0.05+i*0.01)^2;
-	r3(i+1) = pi*(0.04+i*0.01)^2;
-	r4(i+1) = pi*(0.03+i*0.01)^2;
-	r5(i+1) = pi*(0.02+i*0.01)^2;	
-	% these are rightly r's:
+for i=0:size(P_H,1)-1
 	%r (i+1) = (0.06+i*0.01);
 	%r2(i+1) = (0.05+i*0.01);
 	%r3(i+1) = (0.04+i*0.01);
 	%r4(i+1) = (0.03+i*0.01);
 	%r5(i+1) = (0.02+i*0.01);
+	
+	p (i+1) = pi*(0.06+i*0.01)^2;
+	p2(i+1) = pi*(0.05+i*0.01)^2;
+	p3(i+1) = pi*(0.04+i*0.01)^2;
+	p4(i+1) = pi*(0.03+i*0.01)^2;
+	p5(i+1) = pi*(0.02+i*0.01)^2;	
+
+	%P_H (i+1) = P_H (i+1)/p(i+1);
+	%P_H2(i+1) = P_H2(i+1)/p(i+1);
+	%P_H3(i+1) = P_H3(i+1)/p(i+1);
+	%P_H4(i+1) = P_H4(i+1)/p(i+1);
+	%P_H5(i+1) = P_H5(i+1)/p(i+1);
 end;
 
-plot(r,P_H);
+clf;
 hold all;
-plot(r2,P_H2);
-hold all;
-plot(r3,P_H3);
-hold all;
-plot(r4,P_H4);
-hold all;
-plot(r5,P_H5);
+plot(p ,P_H, '-s');
+plot(p2,P_H2, '-+');
+plot(p3,P_H3, '-o');
+plot(p4,P_H4, '-*');
+plot(p5,P_H5, '-x');
+%ylim([0,0.3]);
+xlabel('Link probability (p)');
+ylabel('Pr[W|~Y,X]');
+legend('n = 300', 'n = 400', 'n = 500', 'n = 600', 'n = 700');
