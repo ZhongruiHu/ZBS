@@ -4,5 +4,11 @@ CFLAGS+=-g -Wunused -Wmissing-noreturn
 CFLAGS+=-D_DEBUG
 #endif
 
+a: a.cpp
+	g++ $(CFLAGS) -o $@ $^
+
+p: p.cpp
+	g++ $(CFLAGS) -o $@ $^
+
 mm: mm.cpp
 	g++ $(CFLAGS) -o $@ $^
