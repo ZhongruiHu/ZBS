@@ -1,6 +1,7 @@
 // Calculates the coverage of a circlea and its 1-hop neighbours 
 
 #define _USE_MATH_DEFINES
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,11 +11,13 @@
 
 using namespace std;
 
-#define NUM_SAMPLES		10000
+#define NUM_SAMPLES		20000
 #define NUM_RUNS		100
 
 #define EUC_DIST(xi,yi,xj,yj)	sqrt(((xi)-(xj))*((xi)-(xj)) + ((yi)-(yj))*((yi)-(yj)))
 
+bool fdebug = false;
+bool fpolar_rnd_dist = false;
 int min_n, max_n;		// number of circles
 double *x, *y;			// coordinates
 double r = 0.1;			// radio range
@@ -56,30 +59,18 @@ Agnode_t *gv_create_node(Agraph_t *g, int i)
 	char buf[32];
 
 	// label
-#ifdef _MSC_VER
-	sprintf_s(buf, "%d", i);
-#else
 	sprintf(buf, "%d", i);
-#endif
 	u = agnode(g, buf);
 
 	// position ("!" is for fixing position)
-#ifdef _MSC_VER
-	sprintf_s(buf, "%f,%f!", x[i]*8, y[i]*8);
-#else
 	sprintf(buf, "%f,%f!", x[i]*8, y[i]*8);
-#endif
 	agsafeset(u, (char *)"pos", buf, (char *)"");
 
 	// size		
 	agsafeset(u, (char *)"fontname", (char *)"Courier", (char *)"");
 	agsafeset(u, (char *)"fontsize", (char *)"8", (char *)"");
 	agsafeset(u, (char *)"shape", (char *)"ellipse", (char *)"");
-#ifdef  _MSC_VER
-	sprintf_s(buf, "%f", 2*r*8);
-#else
 	sprintf(buf, "%f", 2*r*8);
-#endif
 	agsafeset(u, (char *)"width", buf, (char *)"");
 	agsafeset(u, (char *)"height", buf, (char *)"");
 
@@ -116,13 +107,21 @@ void one_run(int run, int n)
 	y[0] = 0.5;
 	for (i = 1; i < n; i++) {
 		// random neighbors of node 0
-		double theta = (double)rand()/RAND_MAX*2*M_PI;
-		double d = (double)rand()/RAND_MAX*(r-1e-7);
-		x[i] = 0.5+d*cos(theta);
-		y[i] = 0.5+d*sin(theta);
-		d = EUC_DIST(x[i], y[i], x[0], y[0]);				
-		if (d > r)
-			fprintf(stderr, "d=%f > r=%f\n", d, r);
+		double d;
+		if (fpolar_rnd_dist) {
+			// This is random in polar coordinates:
+			d = (double)rand()/RAND_MAX*(r-0.00000001);
+			double theta = (double)rand()/RAND_MAX*(2*M_PI);
+			x[i] = 0.5+d*cos(theta);
+			y[i] = 0.5+d*sin(theta);
+		} else {
+			// This is random is X-Y coordinates:
+			do {
+				x[i] = 0.5-r+(double)rand()/RAND_MAX*(2*r);
+				y[i] = 0.5-r+(double)rand()/RAND_MAX*(2*r);
+				d = EUC_DIST(x[i], y[i], x[0], y[0]);			
+			} while (d >= r);
+		}
 		vec_d_plus_r.push_back(d+r);
 	}
 
@@ -189,8 +188,11 @@ void one_run(int run, int n)
 	// ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 	// vizualization
 	// ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-	if (run == NUM_RUNS - 1 && n == max_n) {
-		GVC_t *gvc = gv_start((char *)"a.ps");
+	if (fdebug || 
+		(!fdebug && run == NUM_RUNS - 1 && n == max_n)) {
+		char buf[256];
+		sprintf(buf, "out/a-%02d-%02d.ps", n, run);
+		GVC_t *gvc = gv_start(buf);
 		Agraph_t *g = agopen((char *)"g", AGRAPH);
 
 		// create nodes
@@ -203,12 +205,7 @@ void one_run(int run, int n)
 		Agnode_t *twor = agnode(g, "");
 		agsafeset(twor, "pos", "4,4!", "");
 		agsafeset(twor, "shape", "ellipse", "");
-		char buf[256];
-#ifdef _MSC_VER
-		sprintf_s(buf, "%f", 4*r*8);
-#else
 		sprintf(buf, "%f", 4*r*8);
-#endif
 		agsafeset(twor, "width", buf, "");
 		agsafeset(twor, "height", buf, "");
 		agsafeset(twor, "color", "blue", "");
@@ -230,7 +227,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "Usage: %s <min_num_nodes> <max_num_nodes>\n", argv[0]);
 		exit(1);
 	}
-	if (!(min_n = atoi(argv[1])) || min_n < 2) {
+	if (!(min_n = atoi(argv[1])) || min_n < 1) {
 		fprintf(stderr, "Error: Invalid min number of nodes.\n");
 		exit(1);
 	}
@@ -239,10 +236,27 @@ int main(int argc, char **argv)
 		exit(1);
 	}
 	
+	// parse environment variable
+
+	if (getenv("DEBUG")) {
+		printf("DEBUG set\n");
+		fdebug = true;
+	} else {
+		printf("DEBUG not set\n");
+	}
+	if (getenv("POLAR_RND_DIST")) {
+		printf("POLAR_RND_DIST set\n");
+		fpolar_rnd_dist = true;
+	} else {
+		printf("POLAR_RND_DIST not set\n");
+	}
+	
 	// debug
 	//printf("M_PI*r*r = %f\n", M_PI*r*r);
 	//printf("4*M_PI*r*r = %f\n", 4*M_PI*r*r);
-	printf("Union area of two circles = %f\n", 1+sqrt(27.)/4/M_PI);
+	//printf("Union area of two circles = %f\n", 1+sqrt(27.)/4/M_PI);
+
+	srand(8544012);
 
 	// for each value of n
 	for (n = min_n; n <= max_n; n++) {
