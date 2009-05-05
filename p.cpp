@@ -466,7 +466,7 @@ int main(int argc, char **argv)
 				// at this stage i and *iter are between r and 2r apart
 				// now we iterate through *iter's neighbors
 				nX++;
-				double isUP = true;
+				bool isUP = true;
 				for (set<int>::const_iterator iter2 = adjlist[*iter].begin(); iter2 != adjlist[*iter].end(); iter2++) {
 					if (*iter2 == i) continue;
 					if (CONNECTED(*iter2, i)) {
@@ -490,7 +490,7 @@ int main(int argc, char **argv)
 			// skip the sink intentionally
 			for (i = 1; i < n; i++) {
 				for (set<int>::const_iterator iter = adjlist2[i].begin(); iter != adjlist2[i].end(); iter++) {
-					double isHP = false;
+					bool isHP = false;
 					for (set<int>::const_iterator iter2 = adjlist[*iter].begin(); iter2 != adjlist[*iter].end(); iter2++) {
 						if (*iter2 == i) continue;
 						if (CONNECTED(*iter2, i)) {
