@@ -2,8 +2,6 @@
 
 r = [0.06, 0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19, 0.20];
 
-p = 0; for i = 1:size(r, 2), p(i) = pi*r(i)*r(i); end
-
 phi = [		% k=1:25 analytical; k=26:40 experimental
 0.862168,
 0.75613 ,
@@ -46,7 +44,7 @@ phi = [		% k=1:25 analytical; k=26:40 experimental
 0.180351,	% 39
 0.178115];	% 40
 
-sigma = [	% k=1:50
+sigma = [	% From a.xls for k=1:50
 1.148359264, 
 1.24224756 ,
 1.324327376,
@@ -100,14 +98,20 @@ sigma = [	% k=1:50
 
 n = 300;
 
+% x axis
+p = 0;
+for i = 1:size(r, 2)
+	p(i) = pi*r(i)*r(i);
+end
+
 P_V = 0;
 P_H = 0;
 P_U = 0;
 for i = 1:size(r, 2)
 	P_V(i) = (1+3*sqrt(3)/(4*pi))*p(i);	
-	k = ceil(p(i)*n);
-	sigmasq = sigma(i)*sigma(i);
-	P_U(i) = 8*(1-sigmasq)*acos(sigma(i)/2) + sigma(i)*(2+sigmasq)*sqrt(4-sigmasq);
+	k = ceil(p(i)*n)-1;
+	sigmasq = sigma(k)*sigma(k);
+	P_U(i) = 8*(1-sigmasq)*acos(sigma(k)/2) + sigma(k)*(2+sigmasq)*sqrt(4-sigmasq);
 	P_U(i) = P_U(i)*p(i)/(4*pi*(4-sigmasq));
 	P_H(i) = (phi(k)*P_U(i) - sqrt(3)*p(i)/4/pi)/(phi(k)-1);
 end
