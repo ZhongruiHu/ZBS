@@ -1,3 +1,5 @@
+% Generates figure ZBS-prob
+
 r = [
 0.06,
 0.07,
