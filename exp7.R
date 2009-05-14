@@ -19,7 +19,7 @@ list_r[["700"]] <- c("0.02", "0.03", "0.04", "0.05", "0.06", "0.07", "0.08", "0.
 
 uarea <- list()
 harea <- list()
-source("exp6.txt")
+source("exp7.txt")
 
 lambda <- list()
 for (n in list_n) {
@@ -44,7 +44,7 @@ for (n in list_n) {
 	for (r in list_r[[n]]) {
 		writeLines(sprintf("%.2f, ", r), out, "")
 	}
-	write("]", out)
+	write("];", out)
 }
 
 for (n in list_n) {
@@ -52,21 +52,21 @@ for (n in list_n) {
 	for (r in list_r[[n]]) {
 		writeLines(sprintf("%f, ", lambda[[n]][[r]]$estimate), out, "")
 	}
-	write("]", out)
+	write("];", out)
 }
 
 writeLines("n = [", out, "")
 for (n in list_n) {	
 	writeLines(sprintf("%s, ", n), out, "")
 }
-write("]", out)
+write("];", out)
 
 for (r in c(0.07, 0.08, 0.09, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.16)) {
 	writeLines(sprintf("lambda%03.f = [",  r*100), out, "")
 	for (n in list_n) {
 		writeLines(sprintf("%f, ", lambda[[n]][[format(r, nsmall=2)]]$estimate), out, "")
 	}
-	write("]", out)
+	write("];", out)
 }
 
 close(out)
