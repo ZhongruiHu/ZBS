@@ -105,4 +105,4 @@ plot(p5,P_H5, '-x');
 xlabel('Link probability (p)');
 ylabel('P_H(u,v)');
 legend('n = 300', 'n = 400', 'n = 500', 'n = 600', 'n = 700', 'Location', 'NorthWest');
-set(gcf, 'Position', [0, 0, 900, 300]);
+set(gcf, 'Position', [0, 0, 600, 250]);
