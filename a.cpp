@@ -1,4 +1,7 @@
 // Calculates the coverage of a circlea and its 1-hop neighbours 
+// Central circle and its 1-hop neighbors = n circles
+// Extra 2r-neighbor result in n+1 circles in total
+// Note: This cannot be used to calculate P_U
 
 #define _USE_MATH_DEFINES
 #define _CRT_SECURE_NO_WARNINGS
@@ -11,8 +14,8 @@
 
 using namespace std;
 
-#define NUM_SAMPLES		20000
-#define NUM_RUNS		100
+#define NUM_SAMPLES		50000
+#define NUM_RUNS		200
 
 #define EUC_DIST(xi,yi,xj,yj)	sqrt(((xi)-(xj))*((xi)-(xj)) + ((yi)-(yj))*((yi)-(yj)))
 
@@ -24,6 +27,7 @@ double r = 0.1;			// radio range
 vector<double> vec_p;
 vector<double> vec_p2;
 vector<double> vec_d_plus_r;
+vector<double> vec_uarea;
 
 template <typename T> void get_stat(T const& v, double &avg, double &stddev)
 { //{{{
@@ -53,7 +57,7 @@ GVC_t *gv_start(char *outfile)
 	return gvc;
 } //}}}
 
-Agnode_t *gv_create_node(Agraph_t *g, int i)
+Agnode_t *gv_create_node(Agraph_t *g, int i, int max_i)
 { //{{{
 	Agnode_t *u;
 	char buf[32];
@@ -76,6 +80,8 @@ Agnode_t *gv_create_node(Agraph_t *g, int i)
 
 	if (i == 0)
 		agsafeset(u, (char *)"color", (char *)"red", (char *)"");
+	else if (i == max_i)
+		agsafeset(u, (char *)"color", (char *)"green", (char *)"");
 
 	return u;
 } //}}}
@@ -96,8 +102,12 @@ void gv_end(GVC_t *gvc, Agraph_t *g)
 
 void one_run(int run, int n)
 { //{{{
-	double p;		// p/NUM_SAMPLES gives the union area of the circles, i.e., coverage
-	int i, j;		// counters
+	double p;			// p/NUM_SAMPLES gives the union area of the circles, i.e., coverage
+	int i, j;			// counters
+	double d;			// internodal distance
+	double theta;		// angle
+	double joint_area;	// area of the lens-shaped joint area
+	double isUP;		// whether central node and its 2r neighbor are an UP
 
 	// ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 	// These circles are randomly distributed
@@ -107,11 +117,10 @@ void one_run(int run, int n)
 	y[0] = 0.5;
 	for (i = 1; i < n; i++) {
 		// random neighbors of node 0
-		double d;
 		if (fpolar_rnd_dist) {
 			// This is random in polar coordinates:
 			d = (double)rand()/RAND_MAX*(r-0.00000001);
-			double theta = (double)rand()/RAND_MAX*(2*M_PI);
+			theta = (double)rand()/RAND_MAX*(2*M_PI);
 			x[i] = 0.5+d*cos(theta);
 			y[i] = 0.5+d*sin(theta);
 		} else {
@@ -119,11 +128,33 @@ void one_run(int run, int n)
 			do {
 				x[i] = 0.5-r+(double)rand()/RAND_MAX*(2*r);
 				y[i] = 0.5-r+(double)rand()/RAND_MAX*(2*r);
-				d = EUC_DIST(x[i], y[i], x[0], y[0]);			
+				d = EUC_DIST(x[i], y[i], x[0], y[0]);
 			} while (d >= r);
 		}
 		vec_d_plus_r.push_back(d+r);
 	}
+
+	// distribute one 2r-neighbor	
+	do {
+		isUP = true;
+		do {
+			x[n] = 0.5-2*r+(double)rand()/RAND_MAX*(4*r);
+			y[n] = 0.5-2*r+(double)rand()/RAND_MAX*(4*r);
+			d = EUC_DIST(x[n], y[n], x[0], y[0]);
+		} while (d <= r || d >= 2*r);
+		theta = 2*acos(d/2./r);
+		joint_area = r*r*(theta-sin(theta));
+
+		// check if are an UP		
+		for (i = 1; i < n; i++) {
+			d = EUC_DIST(x[i], y[i], x[n], y[n]);
+			if (d < r) {
+				isUP = false;				
+				break;
+			}
+		}		
+	} while (!isUP);
+	vec_uarea.push_back(joint_area);
 
 	// random sample to get coverage
 	p = 0;
@@ -189,16 +220,16 @@ void one_run(int run, int n)
 	// vizualization
 	// ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
 	if (fdebug || 
-		(!fdebug && run == NUM_RUNS - 1 && n == max_n)) {
+		(!fdebug && run == NUM_RUNS - 1)) {
 		char buf[256];
 		sprintf(buf, "out/a-%02d-%02d.ps", n, run);
 		GVC_t *gvc = gv_start(buf);
 		Agraph_t *g = agopen((char *)"g", AGRAPH);
 
 		// create nodes
-		Agnode_t **gn = new Agnode_t*[n];
-		for (i = 0; i < n; i++) {
-			gn[i] = gv_create_node(g, i);
+		Agnode_t **gn = new Agnode_t*[n+1];
+		for (i = 0; i <= n; i++) {
+			gn[i] = gv_create_node(g, i, n);
 		}
 
 		// draw a 2r-circle
@@ -218,9 +249,12 @@ void one_run(int run, int n)
 
 int main(int argc, char **argv)
 { //{{{
-	int n;			// number of circles
-	int run;		// counter
-	double coverage, coverage2, avg_d_plus_r, stddev;
+	int n;					// number of circles
+	int run;				// counter
+	double coverage, coverage_stderr;
+	//double coverage2;		// ignored
+	//double avg_d_plus_r;	// ignored
+	double uarea, uarea_stderr;
 
 	// parse command line
 	if (argc < 3) {
@@ -260,8 +294,8 @@ int main(int argc, char **argv)
 
 	// for each value of n
 	for (n = min_n; n <= max_n; n++) {
-		x = new double[n];
-		y = new double[n];
+		x = new double[n+1];
+		y = new double[n+1];
 
 		vec_p.clear();
 		vec_p2.clear();
@@ -273,11 +307,13 @@ int main(int argc, char **argv)
 		}
 
 		// display result
-		get_stat(vec_p, coverage, stddev);
+		get_stat(vec_p, coverage, coverage_stderr);
 		//get_stat(vec_p2, coverage2, stddev);			// ignored
 		//get_stat(vec_d_plus_r, avg_d_plus_r, stddev);	// ignored
-		printf("n = %3d: sim = %f ¡À%f, yen = %f\n",
-			n, coverage/M_PI/r/r, stddev, 4*(1-pow(.75, n)));
+		get_stat(vec_uarea, uarea, uarea_stderr);
+		//printf("n = %3d: sim = %f ¡À%f, yen = %f, uarea = %f ¡À%f\n",
+		//	n, coverage/M_PI/r/r, coverage_stderr, 4*(1-pow(.75, n)), uarea, uarea_stderr);
+		printf("k = %3d: sigma = %f\n", n-1, sqrt(coverage/M_PI/r/r));
 
 		delete[] x;
 		delete[] y;
