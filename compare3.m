@@ -33,76 +33,152 @@ P_U008R = [0.001912, 0.001721, 0.001564, 0.001426, 0.001348, 0.001253, 0.001144,
 P_U012R = [0.002750, 0.002183, 0.001917, 0.001668, 0.001491, 0.001314, 0.001226, 0.001115, 0.001025, 0.000947, 0.000894];
 P_U016R = [0.003069, 0.002471, 0.002013, 0.001785, 0.001586, 0.001447, 0.001275, 0.001145, 0.001057, 0.000960, 0.000911];
 
-sigma = [	% From a.xls for k=1:60
-1.148359264, 
-1.24224756 ,
-1.324327376,
-1.398556399,
-1.42577628 ,
-1.478504988,
-1.505300634,
-1.530001634,
-1.558994868,
-1.589912891,
-1.60128386 ,
-1.616833943,
-1.628118546,
-1.644446715,
-1.676978831,
-1.68463824 ,
-1.680960142,
-1.692743631,
-1.706021981,
-1.714721552,
-1.717018928,
-1.728896469,
-1.72663314 ,
-1.738282773,
-1.748649193,
-1.75472391 ,
-1.759416949,
-1.760128688,
-1.769109098,
-1.770747582,
-1.777577846,
-1.779811226,
-1.781213631,
-1.788004754,
-1.792861958,
-1.793909139,
-1.795260705,
-1.798126247,
-1.801043864,
-1.805415465,
-1.801571259,
-1.811608401,
-1.811076752,
-1.819349059,
-1.819215215,
-1.820560353,
-1.816816722,
-1.825232314,
-1.823967379,
-1.82863501 ,
-1.82863501 ,
-1.827867063,
-1.833320212,
-1.832966721,
-1.838617687,
-1.839045133,
-1.843507798,
-1.843903197,
-1.843646929,
-1.848080355];
+phi = [		% k=1:25 analytical; k=26:56 experimental {{{
+0.862168,
+0.75613 ,
+0.673142,
+0.607086,
+0.553643,
+0.509726,
+0.473108,
+0.44216 ,
+0.41568 ,
+0.392767,
+0.372737,
+0.355069,
+0.339355,
+0.325277,
+0.31258 ,
+0.301063,
+0.290558,
+0.280932,
+0.272072,
+0.263885,
+0.256292,
+0.249233,
+0.242636,
+0.236162,
+0.23446 ,	% 25
+0.229073,	% 26
+0.224124,	% 27
+0.219228,	% 28
+0.214491,	% 29
+0.209858,	% 30
+0.206411,	% 31
+0.202695,	% 32
+0.198517,	% 33
+0.194765,	% 34
+0.191870,	% 35
+0.187840,	% 36
+0.184256,	% 37
+0.180952,	% 38
+0.178613,	% 39
+0.175323,	% 40
+0.172776,	% 41
+0.169925,	% 42
+0.167319,	% 43
+0.164788,	% 44
+0.162461,	% 45
+0.160314,	% 46
+0.157947,	% 47
+0.155790,	% 48
+0.153770,	% 49
+0.151721,	% 50
+0.150070,	% 51
+0.148275,	% 52
+0.147293,	% 53
+0.145117,	% 54
+0.142951,	% 55
+0.141381,	% 56
+0.139896,	% 57
+0.137973,	% 58
+0.136286,	% 59
+0.134698];	% 60}}}
+
+sigma = [	% From a.xls for k=1:60 {{{
+1.148359, 
+1.242248,
+1.324327,
+1.398556,
+1.425776,
+1.478505,
+1.505301,
+1.530002,
+1.558995,
+1.589913,
+1.601284,
+1.616834,
+1.628119,
+1.644447,
+1.676979,
+1.684638,
+1.68096 ,
+1.692744,
+1.706022,
+1.714721,
+1.717019,
+1.728896,
+1.726633,
+1.738283,
+1.748649,
+1.754724,
+1.759417,
+1.760129,
+1.769109,
+1.770747,
+1.777578,
+1.779811,
+1.781214,
+1.788005,
+1.792862,
+1.793909,
+1.795261,
+1.798126,
+1.801044,
+1.805415,
+1.801571,
+1.811608,
+1.811077,
+1.819349,
+1.819215,
+1.82056 ,
+1.816817,
+1.825232,
+1.823967,
+1.828635,
+1.827867,
+1.83332 ,
+1.832967,
+1.838618,
+1.839045,
+1.843508,
+1.843903,
+1.843647,
+1.84808 ,
+1.848892];	% }}}
+
+sigma = smooth(1:1:size(sigma,1), sigma);	% default filter is good enough
 
 clf;
 hold all;
 
 % constants
+gamma = 0.17;
 a1 = -0.000124; a2 = 0.1304; b = 1.5356; c = 0.1745;
 
 % n = 200, 400, 600
-n = 200; P_U200 = 0; P_U200F = 0;
+% Suffix L stands for linear fit
+% No suffix stands for effective radius method
+% Suffix F stands for exponential fit
+n = 200;
+P_U200L = zeros(1, size(r200, 2));
+for i = 1:size(r200, 2)
+	p = pi*r200(i)*r200(i);
+	P_H = gamma*p;
+	k = ceil(p*n)-1;
+	P_U200L(i) = (gamma + (sqrt(3)/4/pi - gamma)/phi(k))*p;	
+end
+P_U200 = zeros(1, size(r200, 2));
 for i = 1:size(r200, 2)
 	p = pi*r200(i)*r200(i);
 	k = ceil(p*n)-1;
@@ -110,13 +186,22 @@ for i = 1:size(r200, 2)
 	P_U200(i) = 8*(1-sigmasq)*acos(sigma(k)/2) + sigma(k)*(2+sigmasq)*sqrt(4-sigmasq);
 	P_U200(i) = P_U200(i)*p/(4*pi*(4-sigmasq));	
 end
+P_U200F = zeros(1, size(r200, 2));
 for i = 1:size(r200, 2)
 	lambda = (a1*n+a2)/(r200(i)^3) + b*n + c;
 	tmp = (3*sqrt(3)-4*pi)*r200(i)*r200(i)*lambda;
 	P_U200F(i) = (1+(1/6)*exp(tmp/6)*(-6+tmp))/lambda;
 end
 
-n = 400; P_U400 = 0; P_U400T = 0;
+n = 400;
+P_U400L = zeros(1, size(r400, 2));
+for i = 1:size(r400, 2)
+	p = pi*r400(i)*r400(i);
+	P_H = gamma*p;
+	k = ceil(p*n)-1;
+	P_U400L(i) = (gamma + (sqrt(3)/4/pi - gamma)/phi(k))*p;	
+end
+P_U400 = zeros(1, size(r400, 2));
 for i = 1:size(r400, 2)
 	p = pi*r400(i)*r400(i);
 	k = ceil(p*n)-1;
@@ -124,13 +209,22 @@ for i = 1:size(r400, 2)
 	P_U400(i) = 8*(1-sigmasq)*acos(sigma(k)/2) + sigma(k)*(2+sigmasq)*sqrt(4-sigmasq);
 	P_U400(i) = P_U400(i)*p/(4*pi*(4-sigmasq));	
 end
+P_U400F = zeros(1, size(r400, 2));
 for i = 1:size(r400, 2)
 	lambda = (a1*n+a2)/(r400(i)^3) + b*n + c;
 	tmp = (3*sqrt(3)-4*pi)*r400(i)*r400(i)*lambda;
 	P_U400F(i) = (1+(1/6)*exp(tmp/6)*(-6+tmp))/lambda;
 end
 
-n = 600; P_U600 = 0; P_U600F = 0;
+n = 600;
+P_U600L = zeros(1, size(r600, 2));
+for i = 1:size(r600, 2)
+	p = pi*r600(i)*r600(i);
+	P_H = gamma*p;
+	k = ceil(p*n)-1;
+	P_U600L(i) = (gamma + (sqrt(3)/4/pi - gamma)/phi(k))*p;	
+end
+P_U600 = zeros(1, size(r600, 2));
 for i = 1:size(r600, 2)
 	p = pi*r600(i)*r600(i);
 	k = ceil(p*n)-1;
@@ -138,43 +232,77 @@ for i = 1:size(r600, 2)
 	P_U600(i) = 8*(1-sigmasq)*acos(sigma(k)/2) + sigma(k)*(2+sigmasq)*sqrt(4-sigmasq);
 	P_U600(i) = P_U600(i)*p/(4*pi*(4-sigmasq));	
 end
+P_U600F = zeros(1, size(r600, 2));
 for i = 1:size(r600, 2)
 	lambda = (a1*n+a2)/(r600(i)^3) + b*n + c;
 	tmp = (3*sqrt(3)-4*pi)*r600(i)*r600(i)*lambda;
 	P_U600F(i) = (1+(1/6)*exp(tmp/6)*(-6+tmp))/lambda;
 end
 
-subplot(2,2,1);
+subplot(2,3,1);
+plot(r200, P_U200L, 'ko-', ...
+	 r200, P_U200R, 'kx--', ...
+	 r400, P_U400L, 'b+-', ...
+	 r400, P_U400R, 'b*--', ...	 
+	 r600, P_U600L, 'rs-', ...
+	 r600, P_U600R, 'rd--');
+title('(a) First heuristic')
+xlabel('Radio range (r)');
+ylabel('P_U(u,v)');
+legend('n=200 (estimated)', 'n=200 (simulated)', ...
+	   'n=400 (estimated)', 'n=400 (simulated)', ...
+	   'n=600 (estimated)', 'n=600 (simulated)', 'Location', 'SouthWest');
+pos = get(gca, 'Position');
+pos(3) = 0.25; pos(4) = 0.3;
+set(gca, 'Position', pos);
+
+subplot(2,3,2);
 plot(r200, P_U200,  'ko-', ...
 	 r200, P_U200R, 'kx--', ...
 	 r400, P_U400,  'b+-', ...
 	 r400, P_U400R, 'b*--', ...	 
 	 r600, P_U600,  'rs-', ...
 	 r600, P_U600R, 'rd--');
-title('(a)')
+ylim([0 4e-3]);
+title('(b) Second heuristic')
 xlabel('Radio range (r)');
 ylabel('P_U(u,v)');
-legend('200 nodes (estimated)', '200 nodes (simulated)', ...
-	   '400 nodes (estimated)', '400 nodes (simulated)', ...
-	   '600 nodes (estimated)', '600 nodes (simulated)');
+legend('n=200 (est.)', 'n=200 (sim.)', ...
+	   'n=400 (est.)', 'n=400 (sim.)', ...
+	   'n=600 (est.)', 'n=600 (sim.)', 'Location', 'NorthWest');
+pos = get(gca, 'Position');
+pos(3) = 0.25; pos(4) = 0.3;
+set(gca, 'Position', pos);
 
-subplot(2,2,3);
+subplot(2,3,3);
 plot(r200, P_U200F, 'ko-', ...
 	 r200, P_U200R, 'kx--', ...
 	 r400, P_U400F, 'b+-', ...
 	 r400, P_U400R, 'b*--', ...	 
 	 r600, P_U600F, 'rs-', ...
 	 r600, P_U600R, 'rd--');
-title('(c)')
+ylim([0 4e-3]);
+title('(c) Third heuristic')
 xlabel('Radio range (r)');
 ylabel('P_U(u,v)');
-legend('200 nodes (estimated)', '200 nodes (simulated)', ...
-	   '400 nodes (estimated)', '400 nodes (simulated)', ...
-	   '600 nodes (estimated)', '600 nodes (simulated)');	   
+legend('n=200 (est.)', 'n=200 (sim.)', ...
+	   'n=400 (est.)', 'n=400 (sim.)', ...
+	   'n=600 (est.)', 'n=600 (sim.)', 'Location', 'NorthWest');
+pos = get(gca, 'Position');
+pos(3) = 0.25; pos(4) = 0.3;
+set(gca, 'Position', pos);
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % r = 0.08, 0.12, 0.16
-r = 0.08; P_U008 = 0; PU008F = 0;
+r = 0.08;
+P_U008L = zeros(1, size(n_array, 2));
+for i = 1:size(n_array, 2)
+	p = pi*r*r;
+	P_H = gamma*p;
+	k = ceil(p*n_array(i))-1;
+	P_U008L(i) = (gamma + (sqrt(3)/4/pi - gamma)/phi(k))*p;	
+end
+P_U008 = zeros(1, size(n_array, 2));
 for i = 1:size(n_array, 2)
 	p = pi*r*r;
 	k = ceil(p*n_array(i))-1;
@@ -182,13 +310,22 @@ for i = 1:size(n_array, 2)
 	P_U008(i) = 8*(1-sigmasq)*acos(sigma(k)/2) + sigma(k)*(2+sigmasq)*sqrt(4-sigmasq);
 	P_U008(i) = P_U008(i)*p/(4*pi*(4-sigmasq));
 end
+P_U008F = zeros(1, size(n_array, 2));
 for i = 1:size(n_array, 2)
 	lambda = (a1*n_array(i)+a2)/(r^3) + b*n_array(i) + c;
 	tmp = (3*sqrt(3)-4*pi)*r*r*lambda;
 	P_U008F(i) = (1+(1/6)*exp(tmp/6)*(-6+tmp))/lambda;
 end
 
-r = 0.12; P_U012 = 0; P_U012F = 0;
+r = 0.12;
+P_U012L = zeros(1, size(n_array, 2));
+for i = 1:size(n_array, 2)
+	p = pi*r*r;
+	P_H = gamma*p;
+	k = ceil(p*n_array(i))-1;
+	P_U012L(i) = (gamma + (sqrt(3)/4/pi - gamma)/phi(k))*p;	
+end
+P_U012 = zeros(1, size(n_array, 2));
 for i = 1:size(n_array, 2)
 	p = pi*r*r;
 	k = ceil(p*n_array(i))-1;
@@ -196,13 +333,22 @@ for i = 1:size(n_array, 2)
 	P_U012(i) = 8*(1-sigmasq)*acos(sigma(k)/2) + sigma(k)*(2+sigmasq)*sqrt(4-sigmasq);
 	P_U012(i) = P_U012(i)*p/(4*pi*(4-sigmasq));	
 end
+P_U012F = zeros(1, size(n_array, 2));
 for i = 1:size(n_array, 2)
 	lambda = (a1*n_array(i)+a2)/(r^3) + b*n_array(i) + c;
 	tmp = (3*sqrt(3)-4*pi)*r*r*lambda;
 	P_U012F(i) = (1+(1/6)*exp(tmp/6)*(-6+tmp))/lambda;
 end
 
-r = 0.16; P_U016 = 0;
+r = 0.16;
+P_U016L = zeros(1, size(n_array, 2));
+for i = 1:size(n_array, 2)
+	p = pi*r*r;
+	P_H = gamma*p;
+	k = ceil(p*n_array(i))-1;
+	P_U016L(i) = (gamma + (sqrt(3)/4/pi - gamma)/phi(k))*p;	
+end
+P_U016 = zeros(1, size(n_array, 2));
 for i = 1:size(n_array, 2)
 	p = pi*r*r;
 	k = ceil(p*n_array(i))-1;
@@ -210,36 +356,62 @@ for i = 1:size(n_array, 2)
 	P_U016(i) = 8*(1-sigmasq)*acos(sigma(k)/2) + sigma(k)*(2+sigmasq)*sqrt(4-sigmasq);
 	P_U016(i) = P_U016(i)*p/(4*pi*(4-sigmasq));	
 end
+P_U016F = zeros(1, size(n_array, 2));
 for i = 1:size(n_array, 2)
 	lambda = (a1*n_array(i)+a2)/(r^3) + b*n_array(i) + c;
 	tmp = (3*sqrt(3)-4*pi)*r*r*lambda;
 	P_U016F(i) = (1+(1/6)*exp(tmp/6)*(-6+tmp))/lambda;
 end
 
-subplot(2,2,2);
+subplot(2,3,4);
+plot(n_array, P_U008L, 'ko-', ...
+	 n_array, P_U008R, 'kx--', ...
+	 n_array, P_U012L, 'b+-', ...
+	 n_array, P_U012R, 'b*--', ...
+	 n_array, P_U016L, 'rs-', ...
+	 n_array, P_U016R, 'rd--');
+title('(d) First heuristic')	 
+xlabel('Total number of nodes (n)');
+ylabel('P_U(u,v)');
+legend('r=0.08 (estimated)', 'r=0.08 (simulated)', ...
+	   'r=0.12 (estimated)', 'r=0.12 (simulated)', ...
+	   'r=0.16 (estimated)', 'r=0.16 (simulated)', 'Location', 'SouthWest');
+pos = get(gca, 'Position');
+pos(3) = 0.25;  pos(4) = 0.3; pos(2) = 0.2;
+set(gca, 'Position', pos);
+
+subplot(2,3,5);
 plot(n_array, P_U008,  'ko-', ...
 	 n_array, P_U008R, 'kx--', ...
 	 n_array, P_U012,  'b+-', ...
 	 n_array, P_U012R, 'b*--', ...
 	 n_array, P_U016,  'rs-', ...
 	 n_array, P_U016R, 'rd--');
-title('(b)')	 
-xlabel('Total number of nodes');
+title('(e) Second heuristic')	 
+xlabel('Total number of nodes (n)');
 ylabel('P_U(u,v)');
 legend('r=0.08 (estimated)', 'r=0.08 (simulated)', ...
 	   'r=0.12 (estimated)', 'r=0.12 (simulated)', ...
-	   'r=0.16 (estimated)', 'r=0.16 (simulated)');
+	   'r=0.16 (estimated)', 'r=0.16 (simulated)', 'Location', 'NorthEast');
+pos = get(gca, 'Position');
+pos(3) = 0.25;  pos(4) = 0.3; pos(2) = 0.2;
+set(gca, 'Position', pos);
 
-subplot(2,2,4);
+subplot(2,3,6);
 plot(n_array, P_U008F, 'ko-', ...
 	 n_array, P_U008R, 'kx--', ...
 	 n_array, P_U012F, 'b+-', ...
 	 n_array, P_U012R, 'b*--', ...
 	 n_array, P_U016F, 'rs-', ...
 	 n_array, P_U016R, 'rd--');
-title('(d)')	 
-xlabel('Total number of nodes');
+title('(f) Third heuristic')	 
+xlabel('Total number of nodes (n)');
 ylabel('P_U(u,v)');
 legend('r=0.08 (estimated)', 'r=0.08 (simulated)', ...
 	   'r=0.12 (estimated)', 'r=0.12 (simulated)', ...
-	   'r=0.16 (estimated)', 'r=0.16 (simulated)');	   
+	   'r=0.16 (estimated)', 'r=0.16 (simulated)', 'Location', 'NorthEast');
+pos = get(gca, 'Position');
+pos(3) = 0.25;  pos(4) = 0.3; pos(2) = 0.2;
+set(gca, 'Position', pos);
+
+% vim:foldmethod=marker:
