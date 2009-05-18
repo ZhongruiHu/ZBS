@@ -143,6 +143,7 @@ sigma = [	% From a.xls for k=1:60 {{{
 
 sigma = smooth(1:1:size(sigma,1), sigma);	% default filter is good enough
 
+% first heuristic
 gamma = 0.17;
 
 % third heuristic performs badly for n = 2000, 3000
