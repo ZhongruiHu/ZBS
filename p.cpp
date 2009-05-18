@@ -403,9 +403,10 @@ int main(int argc, char **argv)
 	int run = 0, i, j;
 	bool abort = false;
 
-	int *deg_freq;			// stores the number of counts of a degree
+	int *deg_freq;				// stores the number of counts of a degree
 	int mode_deg = 0;			// mode of degrees
 	int avg_deg = 0;
+	int sum_deg_freq = 0;
 	set< pair<int, int> > processed;
 
 	vector<double> vec_jarea;	// stores joint areas of all pairs r<d<=2r apart
@@ -500,9 +501,11 @@ int main(int argc, char **argv)
 		}
 
 		// collect statistics about degrees
+		sum_deg_freq = 0;
 		for (i = 0; i < n; i++) {
 			deg_freq[adjlist[i].size()]++;
 			avg_deg += adjlist[i].size();
+			sum_deg_freq += adjlist[i].size();
 		}
 		avg_deg = int(double(avg_deg)/n);
 		mode_deg = 0;
@@ -596,7 +599,9 @@ int main(int argc, char **argv)
 
 			printf("Theoretical P[Y|X] : see Mathematica script\n");
 			get_stat(vec_P_Y_X, sim_P_Y_X, stddev);
-			printf("Simulated   P[Y|X] : %f ¡À%f (k = %d)\n", sim_P_Y_X, stddev, avg_deg);
+			printf("Simulated   P[Y|X] : %f ¡À%f [r=%f, k=%d(%d), p(k)=%.4f(%.4f)]\n",
+				sim_P_Y_X, stddev, r, avg_deg, mode_deg,
+				(double)deg_freq[avg_deg]/sum_deg_freq, (double)deg_freq[mode_deg]/sum_deg_freq);
 			
 			printf("Theoretical P_U    : %f\n", P_U = calc_P_U(r, avg_deg));
 			get_stat(vec_uarea, sim_P_U, stddev);	
