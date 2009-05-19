@@ -337,4 +337,6 @@ set(gca, 'Position', pos);
 % 	   'n=2k (est.)', 'n=2k (sim.)', ...
 % 	   'n=3k (est.)', 'n=3k (sim.)', 'Location', 'SouthEast');
 
+set(gcf, 'PaperSize', [50 20]);
+
 % vim:foldmethod=marker:
