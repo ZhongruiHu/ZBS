@@ -1,4 +1,4 @@
-CFLAGS+=-g -Wunused -Wmissing-noreturn
+CFLAGS+=-g -Wunused -Wmissing-noreturn -Wno-write-strings -I/usr/include/graphviz -lgvc -lagraph
 
 #ifdef _DEBUG
 CFLAGS+=-D_DEBUG
