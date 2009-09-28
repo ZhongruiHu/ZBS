@@ -100,7 +100,7 @@ Mac/802_15_4 wpanNam PlaybackRate 3ms
 
 set appTime1         	8.3	;# in seconds 
 set appTime2         	8.6	;# in seconds 
-set stopTime            100	;# in seconds 
+set stopTime            20	;# in seconds 
 
 proc cbrtraffic { src dst interval starttime } {
    global ns_ node_
@@ -174,12 +174,12 @@ if { ("$opt(traffic)" == "cbr") || ("$opt(traffic)" == "poisson") } {
 }
      
 $ns_ at 0.0	"$node_(0) NodeLabel PAN Coor"
-$ns_ at 0.0	"$node_(0) sscs startPANCoord 1"		;# startPANCoord <txBeacon=1> <BO=3> <SO=3>
-$ns_ at 0.5	"$node_(1) sscs startDevice 1 1 1" 		;# startDevice <isFFD=1> <assoPermit=1> <txBeacon=0> <BO=3> <SO=3>
-$ns_ at 1.5	"$node_(2) sscs startDevice 1 1 1"
-$ns_ at 2.5	"$node_(3) sscs startDevice 1 1 1"
-$ns_ at 3.5	"$node_(4) sscs startDevice 1 1 1"
-$ns_ at 4.5	"$node_(5) sscs startDevice 1 1 1"
+$ns_ at 0.0	"$node_(0) sscs startPANCoord 1   3 3 "		;# startPANCoord <txBeacon=1> <BO=3> <SO=3>
+$ns_ at 0.5	"$node_(1) sscs startDevice 1 1 1 3 3" 		;# startDevice <isFFD=1> <assoPermit=1> <txBeacon=1> <BO=3> <SO=3>
+$ns_ at 1.5	"$node_(2) sscs startDevice 1 1 1 3 3"
+$ns_ at 2.5	"$node_(3) sscs startDevice 1 1 1 3 3"
+$ns_ at 3.5	"$node_(4) sscs startDevice 1 1 1 3 3"
+$ns_ at 4.5	"$node_(5) sscs startDevice 1 1 1 3 3"
 $ns_ at 5.5	"$node_(6) sscs startDevice 0"
 $ns_ at 5.8	"$node_(7) sscs startDevice 0"
 $ns_ at 6.5	"$node_(8) sscs startDevice 0"
@@ -235,8 +235,36 @@ proc stop {} {
                 set hasDISPLAY 1
         }
     }
-   	exec nam $opt(nam) &
+   	#exec nam $opt(nam) &
 }
 
 puts "\nStarting Simulation..."
 $ns_ run
+
+# I'd like to share some of my observations regarding the implementation of IEEE
+# 802.15.4 in ns-2. These observations are based on the results of running the
+# script wpan_demo3.tcl in the directory ns-allinone-2.33/ns-2.33/tcl/ex/wpan.
+#
+# 1. The effect of beacon order (BO)
+#
+# wpan_demo3.tcl implicitly sets the beacon order to be the same as the
+# superframe order (SO), i.e., BO = SO = 3, thus resulting in only one beacon
+# slot in a superframe. Before the script is modified, all FFD nodes are somehow
+# able to broadcast their beacons. When BO is set to 6 or above, no FFD nodes
+# are able to broadcast their beacons. I expected that when the number of beacon
+# slots is increased, the chance of the FFDs broadcasting their beacons
+# increases, but this was not observed.
+#
+# 2. Sleeping in the inactive period/portion of a superframe
+# 
+# No sleeping by any node has been observed due to this conditional in the file
+# p802_15_4mac.cc:
+#
+# if ((backoffStatus!=99)
+#    && ((!capability.FFD)||(numberDeviceLink(&deviceLink1) == 0))
+#    && (NOW>phy->T_sleep_)) {
+#    phy->putNodeToSleep();
+#    ...
+#
+# because T_sleep_ is only initialized once to 10000. It seems like the
+# implementation does not make nodes sleep during inactive periods at all.
