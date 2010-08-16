@@ -60,7 +60,7 @@ prob <- c(0.6937,  0.2280,  0.0627,  0.0131,  0.0024,  0.0002,	0.0000,  0.0000, 
 					0.3466,  0.2622,  0.1897,  0.1097,  0.0554,  0.0233,  0.0088,  0.0030, 0.0008,  0.0003,  0.0001,  0.0000,  0.0000,  0.0000) # 1000
 
 dim(prob) <- c(length(count), length(num_FFD))
-persp(count, area_length, prob,
+persp(count, num_FFD, prob,
 			xlab = "Reassociation count", ylab = "Number of nodes", zlab = "Probability", 
 			sub="Fixed simulation area", zlim=c(0,0.7),
 			theta = 22.5, phi = 22.5, expand = 0.6, col = "lightblue",
