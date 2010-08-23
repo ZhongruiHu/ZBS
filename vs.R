@@ -4,7 +4,9 @@ par(xpd=NA, mfrow=c(2,3), mar=c(6,4,1.5,0.5), cex=1.1) # margin: bottom left top
 num_FFD <- c(300, 400, 500, 600, 700, 800, 900, 1000)
 legend <- c("DSA", "D2VHU")
 
-# # # # # # # # Average latency # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#       Average latency
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # # # # # # # # flat # # # # # # # #
 # DSA
@@ -38,7 +40,9 @@ plot(num_FFD, avg_lat, type='o', pch=1, ylim=c(2,25),
 avg_lat <- c(6.117536, 6.491474, 6.998628, 7.170593, 7.388546, 7.625382, 7.842445, 7.872848)
 lines(num_FFD, avg_lat, type='o', pch=2)
 
-# # # # # # # # Number of associated devices # # # # # # # # # # # # # # # # # # # # # # # # #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#       Number of associated devices
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 par(mar=c(4,4,1.5,0.5))
 
 # # # # # # # # flat # # # # # # # #
