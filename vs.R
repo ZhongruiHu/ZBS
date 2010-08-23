@@ -1,4 +1,4 @@
-pdf("ZBS-vs.pdf", width=14, height=8, family="Times")
+pdf("ZBS-vs.pdf", width=14, height=7, family="Times")
 par(xpd=NA, mfrow=c(2,3), mar=c(6,4,1.5,0.5), cex=1.1) # margin: bottom left top right
 
 num_FFD <- c(300, 400, 500, 600, 700, 800, 900, 1000)
