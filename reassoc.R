@@ -1,5 +1,5 @@
-pdf("ZBS-reassoc.pdf", width=6, height=10, family="Times")
-par(xpd=TRUE, mfrow=c(2,1), mar=c(5,2,0,0)) # margin: bottom left top right
+pdf("ZBS-reassoc.pdf", width=12, height=5, family="Times")
+par(xpd=TRUE, mfrow=c(1,2), mar=c(0,2.5,1,0)) # margin: bottom left top right
 
 ########################################################
 area_l <- c(100, 120, 140, 160, 180, 200, 220, 240)
@@ -18,8 +18,8 @@ prob <- c(0.6772, 0.2312, 0.0717, 0.0154, 0.0034, 0.0007, 0.0005, 0.0000, 0.0000
 
 dim(prob) <- c(length(count), length(area_l))
 persp(count, area_l, prob,			
-			xlab = "Reassociation count", ylab = "Area length (m)", zlab = "Probability",
-			sub="Fixed network density", zlim=c(0,0.7),
+			xlab = "Re-association count", ylab = "Area length (m)", zlab = "Fraction of nodes",
+			main="(a) Fixed network density", zlim=c(0,0.7),
 			theta = 22.5, phi = 22.5, expand = 0.6, col = "lightblue",
       ltheta = 120, shade = 0.75, ticktype = "detailed"
 )
@@ -61,8 +61,8 @@ prob <- c(0.6937,  0.2280,  0.0627,  0.0131,  0.0024,  0.0002,	0.0000,  0.0000, 
 
 dim(prob) <- c(length(count), length(num_FFD))
 persp(count, num_FFD, prob,
-			xlab = "Reassociation count", ylab = "Number of nodes", zlab = "Probability", 
-			sub="Fixed simulation area", zlim=c(0,0.7),
+			xlab = "Re-association count", ylab = "Number of nodes", zlab = "Fraction of nodes", 
+			main="(b) Fixed simulation area", zlim=c(0,0.7),
 			theta = 22.5, phi = 22.5, expand = 0.6, col = "lightblue",
       ltheta = 120, shade = 0.75, ticktype = "detailed"
 )
