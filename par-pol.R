@@ -11,7 +11,7 @@ par(xpd=TRUE, mfrow=c(1,2), mar=c(4,4.5,1.5,0.5), cex=1.1) # margin: bottom left
 area_l <- c(100, 120, 140, 160, 180, 200, 220, 240)
 
 # PAR_POL_DEPTH
-avg_lat <- c(8.833159, 8.391093, 8.475892, 8.783953, 9.167986, 9.546415, 10.039348, 10.594758)
+avg_lat <- c(8.838037, 8.336745, 8.485482, 8.735454, 9.138091, 9.605691, 10.063384, 10.579800)
 avg_max_lat <- c(18.44, 17.14, 16.92, 17.29, 18.09, 18.65, 19.42, 20.76)
 plot(area_l, avg_lat, type='o', pch=1, ylim=c(7.5,10.7),
 	xlab='Area length (m)', ylab='Average latency (slots)', main='(a) Fixed network density')
