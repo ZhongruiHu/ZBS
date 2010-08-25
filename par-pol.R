@@ -1,7 +1,10 @@
 # D2VHU 
 
 pdf("ZBS-par-pol.pdf", width=12, height=4, family="Times")
-par(xpd=TRUE, mfrow=c(1,2), mar=c(4,4.5,1.0,0.5)) # margin: bottom left top right
+par(xpd=TRUE, mfrow=c(1,2), mar=c(4,4.5,1.5,0.5), cex=1.1) # margin: bottom left top right
+
+#pdf("ZBS-par-pol.pdf", width=6, height=8, family="Times")
+#par(xpd=TRUE, mfrow=c(2,1), mar=c(4,4.5,1.5,0.5), cex=1.1) # margin: bottom left top right
 
 # fixed degree: use exp1.sh =======================================================================
 
