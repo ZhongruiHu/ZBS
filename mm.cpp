@@ -1,10 +1,13 @@
-// TODO: 
-// The average number of reassociation times per node 
-// Number of nodes whose ZC/ZR neighbors are hidden due to beacon collisions
+/* Only compatible with VC++ because set.erase is different between VC++ and GNU implementation */
 
-#define _CRT_SECURE_NO_WARNINGS
-#define _CRT_RAND_S
-#define _USE_MATH_DEFINES
+#ifdef _MSC_VER
+	#define _CRT_SECURE_NO_WARNINGS
+	#define _CRT_RAND_S
+	#define _USE_MATH_DEFINES
+#else
+	#define sprintf_s sprintf
+	#define _stricmp	strcasecmp
+#endif
 
 #include <assert.h>
 #include <stdio.h>
@@ -307,10 +310,10 @@ void gv_end(GVC_t *gvc, Agraph_t *g)
  */
 bool bernoulli(double p)
 { //{{{
-#ifdef MSVC	
+#ifdef _MSC_VER	
 	unsigned int nonce;	
 	rand_s(&nonce);
-	return ((double)r/UINT_MAX < p ? true : false);
+	return ((double)nonce/UINT_MAX < p ? true : false);
 #else	
 	return ((double)rand()/RAND_MAX < p ? true : false);
 #endif
@@ -1021,7 +1024,7 @@ void new_tree_yen()
 
 void new_tree_tseng()
 { //{{{
-	set<int>::const_iterator iter;
+	set<int>::iterator iter;
 
 	// the first element stores the node A to tx next
 	// the second element stores the node B where A has received beacon from,
@@ -1300,7 +1303,7 @@ void init_data(double area_width, double area_height, double r)
 	if (!degFixed) {
 		// node degree not fixed
 		for (i = 1; i < num_FFD; i++) {
-#ifdef MSVC
+#ifdef _MSC_VER
 			unsigned int nonce;
 			rand_s(&nonce);
 			devices[i].pos_x = (double)nonce/UINT_MAX * area_width;
@@ -1334,7 +1337,7 @@ void init_data(double area_width, double area_height, double r)
 		// node degree not fixed, find num_FFD
 		i = 1;
 		do {
-#ifdef MSVC
+#ifdef _MSC_VER
 			unsigned int nonce;
 			rand_s(&nonce);
 			devices[i].pos_x = (double)nonce/UINT_MAX * area_width;
