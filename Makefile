@@ -1,8 +1,11 @@
-CFLAGS+=-g -Wunused -Wmissing-noreturn -Wno-write-strings -I/usr/include/graphviz -lgvc -lagraph
+INCLUDE=-I/usr/include/graphviz -I/opt/local/include/graphviz
+LIB=-L/usr/lib/graphviz -L/opt/local/lib/graphviz -lgvc -lagraph
 
-#ifdef _DEBUG
+CFLAGS+=-g -Wunused -Wmissing-noreturn -Wno-write-strings $(INCLUDE) $(LIB)
+
+ifdef DEBUG
 CFLAGS+=-D_DEBUG
-#endif
+endif
 
 a: a.cpp
 	g++ $(CFLAGS) -o $@ $^
