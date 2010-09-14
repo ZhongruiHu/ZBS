@@ -4,7 +4,7 @@ pdf("ZBS-vs-Lm.pdf", width=15, height=4, family="Times")
 par(xpd=NA, mfrow=c(1,3), mar=c(4,4,2.5,0.5), cex=1.1) # margin: bottom left top right
 
 num_FFD <- c(300, 400, 500, 600, 700, 800, 900, 1000)
-legend <- c("D2VHU (Lm=3)", "D2VHU (Lm=6)", "D2VHU (Lm=9)", "DSA (Lm=3)", "DSA (Lm=6)", "DSA (Lm=9)")
+legend <- c("DVHU (Lm=3)", "DVHU (Lm=6)", "DVHU (Lm=9)", "DSA (Lm=3)", "DSA (Lm=6)", "DSA (Lm=9)")
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #       Average latency
