@@ -1,17 +1,20 @@
-INCLUDE=-I/usr/include/graphviz -I/opt/local/include/graphviz
-LIB=-L/usr/lib/graphviz -L/opt/local/lib/graphviz -lgvc -lagraph
+# From libguide.pdf
+# Works on cmd line, but not in Makefile
+#CFLAGS=‘pkg-config libgvc --cflags‘ -Wall -g -O2	
+#LDFLAGS=‘pkg-config libgvc --libs‘
 
-CFLAGS+=-g -Wunused -Wmissing-noreturn -Wno-write-strings $(INCLUDE) $(LIB)
+CFLAGS=-I/opt/local/include/graphviz
+LDFLAGS=-L/opt/local/lib -lgvc -lgraph -lcdt
 
 ifdef DEBUG
 CFLAGS+=-D_DEBUG
 endif
 
 a: a.cpp
-	g++ $(CFLAGS) -o $@ $^
+	g++ $(CFLAGS) $(LDFLAGS) -o $@ $^
 
 p: p.cpp
-	g++ $(CFLAGS) -o $@ $^
+	g++ $(CFLAGS) $(LDFLAGS) -o $@ $^
 
 mm: mm.cpp
-	g++ $(CFLAGS) -o $@ $^
+	g++ $(CFLAGS) $(LDFLAGS) -o $@ $^
