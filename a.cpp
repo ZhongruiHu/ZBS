@@ -15,7 +15,7 @@
 using namespace std;
 
 #define NUM_SAMPLES		50000
-#define NUM_RUNS		200
+#define NUM_RUNS			200
 
 #define EUC_DIST(xi,yi,xj,yj)	sqrt(((xi)-(xj))*((xi)-(xj)) + ((yi)-(yj))*((yi)-(yj)))
 
@@ -311,9 +311,11 @@ int main(int argc, char **argv)
 		//get_stat(vec_p2, coverage2, stddev);			// ignored
 		//get_stat(vec_d_plus_r, avg_d_plus_r, stddev);	// ignored
 		get_stat(vec_uarea, uarea, uarea_stderr);
-		//printf("n = %3d: sim = %f ¡À%f, yen = %f, uarea = %f ¡À%f\n",
-		//	n, coverage/M_PI/r/r, coverage_stderr, 4*(1-pow(.75, n)), uarea, uarea_stderr);
-		printf("k = %3d: sigma = %f\n", n-1, sqrt(coverage/M_PI/r/r));
+		if (!fpolar_rnd_dist)
+			printf("n = %3d: sim = %f (%f), yen = %f, uarea = %f (%f)\n",
+				n, coverage/M_PI/r/r, coverage_stderr, 4*(1-pow(.75, n)), uarea, uarea_stderr);
+		else
+			printf("k = %3d: sigma = %f\n", n-1, sqrt(coverage/M_PI/r/r));
 
 		delete[] x;
 		delete[] y;
