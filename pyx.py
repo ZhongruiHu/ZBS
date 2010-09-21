@@ -28,10 +28,9 @@ if __name__ == "__main__":
 		if sh.signaled:
 			break
 
-		r = sqrt((k)/(n*pi))
 		if os.name == 'nt':
-			os.system('p %f %d' % (r, n))
+			os.system('p %d %d' % (k, n))
 		else:
-			os.system('./p %f %d' % (r, n))
+			os.system('./p %d %d' % (k, n))
 
 # vim:ts=2:sw=2:
