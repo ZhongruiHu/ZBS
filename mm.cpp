@@ -1334,7 +1334,7 @@ void init_data(double area_width, double area_height, double r)
 		}
 		degree = (int)(sum_deg/(double)num_FFD);
 	} else {
-		// node degree not fixed, find num_FFD
+		// node degree fixed, find num_FFD
 		i = 1;
 		do {
 #ifdef _MSC_VER
