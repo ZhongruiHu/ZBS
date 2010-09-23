@@ -16,7 +16,6 @@ using namespace std;
 
 // - - - - Configuration - - - - - - - - -- - - - - - - - - - - - - - - 
 
-bool frigor = false;
 int NUM_RUNS =10;
 bool feuc_dist = false;		// uses euclidean distances, the default is toroidal
 bool fno_res = false;
@@ -237,6 +236,7 @@ const double kov[] = {0, 1,
 // Let X be the event that u is between r and 2r away from v
 // Let Y be the event that u shares no neighbor with v
 double r;								// radio range
+int degree;							// node degree
 int n;									// number of nodes
 double *x, *y;
 set<int> *adjlist;						// adjlist[i] stores r-neighbors of i
@@ -286,22 +286,22 @@ double distance(int i, int j, double area_width, double area_height)
 	} else {	
 		double min;
 
-		min = EUC_DIST(x[i],				y[i],				x[j], y[j]);
-		tmp = EUC_DIST(x[i] + area_width,	y[i],				x[j], y[j]);
+		min = EUC_DIST(x[i],              y[i],               x[j], y[j]);
+		tmp = EUC_DIST(x[i] + area_width, y[i],               x[j], y[j]);
 		if (tmp < min) min = tmp;
-		tmp = EUC_DIST(x[i] - area_width,	y[i],				x[j], y[j]);
+		tmp = EUC_DIST(x[i] - area_width, y[i],               x[j], y[j]);
 		if (tmp < min) min = tmp;
-		tmp = EUC_DIST(x[i],				y[i] + area_height,	x[j], y[j]);
+		tmp = EUC_DIST(x[i],              y[i] + area_height, x[j], y[j]);
 		if (tmp < min) min = tmp;
-		tmp = EUC_DIST(x[i],				y[i] - area_height,	x[j], y[j]);
+		tmp = EUC_DIST(x[i],              y[i] - area_height, x[j], y[j]);
 		if (tmp < min) min = tmp;
-		tmp = EUC_DIST(x[i] + area_width,	y[i] + area_height,	x[j], y[j]);
+		tmp = EUC_DIST(x[i] + area_width, y[i] + area_height, x[j], y[j]);
 		if (tmp < min) min = tmp;
-		tmp = EUC_DIST(x[i] + area_width,	y[i] - area_height,	x[j], y[j]);
+		tmp = EUC_DIST(x[i] + area_width, y[i] - area_height, x[j], y[j]);
 		if (tmp < min) min = tmp;
-		tmp = EUC_DIST(x[i] - area_width,	y[i] + area_height,	x[j], y[j]);
+		tmp = EUC_DIST(x[i] - area_width, y[i] + area_height, x[j], y[j]);
 		if (tmp < min) min = tmp;
-		tmp = EUC_DIST(x[i] - area_width,	y[i] - area_height,	x[j], y[j]);
+		tmp = EUC_DIST(x[i] - area_width, y[i] - area_height, x[j], y[j]);
 		if (tmp < min) min = tmp;
 		uvdist[p] = min;
 		return min;
@@ -401,13 +401,9 @@ double calc_P_H(double P_Y_X, double P_U, double r)
 int main(int argc, char **argv)
 { //{{{
 	int run = 0, i, j;
-	bool abort = false;
-
-	int *deg_freq;				// stores the number of counts of a degree
-	int mode_deg = 0;			// mode of degrees
-	int avg_deg = 0;
-	int sum_deg_freq = 0;
 	set< pair<int, int> > processed;
+
+	vector<double> vec_avg_deg;
 
 	vector<double> vec_jarea;	// stores joint areas of all pairs r<d<=2r apart
 	vector<double> vec_P_Y_X;	// stores nY_X/nX of each sim round
@@ -422,27 +418,22 @@ int main(int argc, char **argv)
 
 	// parse command line params
 	if (argc < 3) {
-		printf("Usage: %s <radio range> <number of nodes>\n", argv[0]);
+		printf("Usage: %s <number of nodes> <node degree>\n", argv[0]);
+		printf("Note that the number of nodes and node degree are only approximate.\n");
+		printf("The program will calculate the required radio range, and add nodes to the network until the desired node degree is reached.\n");
 		exit(1);
 	}
-	if (!(r = atof(argv[1]))) {
-		printf("Error: Invalid radio range.\n");
+	if (!(degree = atoi(argv[1])) || degree <= 0) {
+		printf("Error: Invalid node degree.\n");
 		exit(1);
 	}
-	if (!(n = atoi(argv[2])) || n < 0) {
+	if (!(n = atof(argv[2]))) {
 		printf("Error: Invalid number of nodes.\n");
 		exit(1);
 	}
-	fprintf(stderr, "n = %d, r = %f\n", n, r);
+	fprintf(stderr, "degree = %d, n = %d\n", degree, n);
 
 	// parse environment variables	
-	if (getenv("RIGOR")) {
-		frigor = true;
-		fprintf(stderr, "\tRIGOR set\n");
-	} else {
-		fprintf(stderr, "\tRIGOR not set\n");
-	}
-
 	if (getenv("NUM_RUNS"))	{
 		NUM_RUNS = atoi(getenv("NUM_RUNS"));
 	}
@@ -470,55 +461,41 @@ int main(int argc, char **argv)
 	}	
 
 	// init vars
-	x = new double[n];
-	y = new double[n];
-	adjlist = new set<int>[n];
-	adjlist2 = new set<int>[n];
-	deg_freq = new int[n];
+	r = sqrt(degree/(n*M_PI));
+	int est_n = (int)ceil(1.2/(M_PI*r*r)*(degree+1)); // actual n should be less
+	x = new double[est_n];
+	y = new double[est_n];
+	adjlist = new set<int>[est_n];
+	adjlist2 = new set<int>[est_n];
 
 	// start simulation rounds
 	srand(123456);
 	for (run = 0; run < NUM_RUNS; run++)
 	{
+		int sum_deg = 0;
 		int nX = 0;				// incremented whenever event X occurs
 		int nY_X = 0;			// incremented whenever event X and event Y occurs
 
 		// distribute and init each node
-		for (i = 0; i < n; i++) {
+		i = 0;
+		do {
 			x[i] = (double)rand() / RAND_MAX;
 			y[i] = (double)rand() / RAND_MAX;
 			for (j = 0; j < i; j++) {
-				if (distance(j,i,1,1) <= r) {
+				if (distance(j, i, 1, 1) < r) {
 					adjlist[i].insert(j);
 					adjlist[j].insert(i);
-				} else if (distance(j,i,1,1) <= 2*r) {
+					sum_deg += 2;
+				} else if (distance(j, i, 1, 1) < 2*r) {
 					adjlist2[i].insert(j);
 					adjlist2[j].insert(i);
 					vec_jarea.push_back(joint_area(j, i));
 				}
 			}
-			deg_freq[i] = 0;
-		}
-
-		// collect statistics about degrees
-		sum_deg_freq = 0;
-		for (i = 0; i < n; i++) {
-			deg_freq[adjlist[i].size()]++;
-			avg_deg += adjlist[i].size();
-			sum_deg_freq += adjlist[i].size();
-		}
-		avg_deg = int(double(avg_deg)/n);
-		mode_deg = 0;
-		for (i = 1; i < n; i++) {			
-			if (deg_freq[i] > deg_freq[mode_deg]) {
-				mode_deg = i;
-			}
-		}
-		if (avg_deg != mode_deg && frigor) {
-			printf("adg_deg(%d) != mode_deg(%d)\n", avg_deg, mode_deg);
-			abort = true;
-			break;
-		}
+			i++;
+		} while (sum_deg/(double)i < degree);
+		n = i;
+		vec_avg_deg.push_back(sum_deg/(double)n);
 
 		// look for an UP or an HP
 		for (i = 0; i < n; i++) {
@@ -588,48 +565,46 @@ int main(int argc, char **argv)
 		HPs.clear();
 	}
 
-	if (!abort) {
-		// display result
-		double P_U, sim_P_W_X, sim_P_Y_X, sim_P_U, sim_P_H, stddev;
+	// display result
+	double avg_deg, P_U, sim_P_W_X, sim_P_Y_X, sim_P_U, sim_P_H, stddev;
 
-		if (!fno_res) {		
-			printf("Theoretical P[W|X] : %f\n", calc_P_W_X(r));
-			get_stat(vec_jarea, sim_P_W_X, stddev);
-			printf("Simulated   P[W|X] : %f ¡À%f\n", sim_P_W_X, stddev);
+	if (!fno_res) {
+		get_stat(vec_avg_deg, avg_deg, stddev);
 
-			printf("Theoretical P[Y|X] : see Mathematica script\n");
-			get_stat(vec_P_Y_X, sim_P_Y_X, stddev);
-			printf("Simulated   P[Y|X] : %f ¡À%f [r=%f, k=%d(%d), p(k)=%.4f(%.4f)]\n",
-				sim_P_Y_X, stddev, r, avg_deg, mode_deg,
-				(double)deg_freq[avg_deg]/sum_deg_freq, (double)deg_freq[mode_deg]/sum_deg_freq);
-			
-			printf("Theoretical P_U    : %f\n", P_U = calc_P_U(r, avg_deg));
-			get_stat(vec_uarea, sim_P_U, stddev);	
-			printf("Simulated   P_U    : %f ¡À%f\n", sim_P_U, stddev);
-			
-			printf("Theoretical P_H    : %f\n", calc_P_H(sim_P_Y_X, P_U, r));
-			get_stat(vec_harea, sim_P_H, stddev);
-			printf("Simulated   P_H    : %f ¡À%f\n", sim_P_H, stddev);
-			
-			printf("P[W|X] sanity check: %f\n", sim_P_U*sim_P_Y_X + sim_P_H*(1-sim_P_Y_X)); // says sim_P_Y_X is right
+		printf("Theoretical P[W|X] : %f\n", calc_P_W_X(r));
+		get_stat(vec_jarea, sim_P_W_X, stddev);
+		printf("Simulated   P[W|X] : %f (%f)\n", sim_P_W_X, stddev);
+
+		printf("Theoretical P[Y|X] : see Mathematica script\n");
+		get_stat(vec_P_Y_X, sim_P_Y_X, stddev);
+		printf("Simulated   P[Y|X] : %f (%f) [r=%f, avg_deg=%f, n=%d]\n",	sim_P_Y_X, stddev, r, avg_deg, n);
+		
+		printf("Theoretical P_U    : %f\n", P_U = calc_P_U(r, avg_deg));
+		get_stat(vec_uarea, sim_P_U, stddev);	
+		printf("Simulated   P_U    : %f (%f)\n", sim_P_U, stddev);
+		
+		printf("Theoretical P_H    : %f\n", calc_P_H(sim_P_Y_X, P_U, r));
+		get_stat(vec_harea, sim_P_H, stddev);
+		printf("Simulated   P_H    : %f (%f)\n", sim_P_H, stddev);
+		
+		printf("P[W|X] sanity check: %f\n", sim_P_U*sim_P_Y_X + sim_P_H*(1-sim_P_Y_X)); // says sim_P_Y_X is right
+	}
+
+	// raw data
+	if (fraw) {
+		printf("uarea[[\"%d\"]][[\"%.2f\"]] <- c(", n, r);
+		for (vector<double>::const_iterator iter = vec_uarea.begin(); iter != vec_uarea.end(); iter++) {
+			if (iter + 1 == vec_uarea.end())
+				printf("%f)\n", *iter);
+			else
+				printf("%f, ", *iter);
 		}
-
-		// raw data
-		if (fraw) {
-			printf("uarea[[\"%d\"]][[\"%.2f\"]] <- c(", n, r);
-			for (vector<double>::const_iterator iter = vec_uarea.begin(); iter != vec_uarea.end(); iter++) {
-				if (iter + 1 == vec_uarea.end())
-					printf("%f)\n", *iter);
-				else
-					printf("%f, ", *iter);
-			}
-			printf("harea[[\"%d\"]][[\"%.2f\"]] <- c(", n, r);
-			for (vector<double>::const_iterator iter = vec_harea.begin(); iter != vec_harea.end(); iter++) {
-				if (iter + 1 == vec_harea.end())
-					printf("%f)\n", *iter);
-				else
-					printf("%f, ", *iter);
-			}
+		printf("harea[[\"%d\"]][[\"%.2f\"]] <- c(", n, r);
+		for (vector<double>::const_iterator iter = vec_harea.begin(); iter != vec_harea.end(); iter++) {
+			if (iter + 1 == vec_harea.end())
+				printf("%f)\n", *iter);
+			else
+				printf("%f, ", *iter);
 		}
 	}
 
@@ -638,9 +613,8 @@ int main(int argc, char **argv)
 	delete[] y;
 	delete[] adjlist;
 	delete[] adjlist2;
-	delete[] deg_freq;
 
-	exit(abort ? 1 : 0);
+	return 0;
 } //}}}
 
 // vim:foldmethod=marker:
