@@ -3,7 +3,7 @@
 #CFLAGS=‘pkg-config libgvc --cflags‘ -Wall -g -O2	
 #LDFLAGS=‘pkg-config libgvc --libs‘
 
-CFLAGS=-I/opt/local/include/graphviz
+CFLAGS=-I/opt/local/include/graphviz -O2
 LDFLAGS=-L/opt/local/lib -lgvc -lgraph -lcdt
 
 ifdef DEBUG
