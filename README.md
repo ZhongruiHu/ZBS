@@ -1,7 +1,7 @@
 ZBS
 ===
 
-Simulation code for my IEEE TMC and WICON 2008 papers (main file being mm.cpp):
+Simulation code for my IEEE Trans. Mobile Comput. and WICON 2008 papers (main file being mm.cpp):
 
 L.-H. Yen, Y.W. Law, and M. Palaniswami. Risk-Aware Distributed Beacon Scheduling for Tree-Based ZigBee Wireless Networks. IEEE Transactions on Mobile Computing, 11(4):692–703, April 2012.
 
